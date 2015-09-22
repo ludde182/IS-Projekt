@@ -152,43 +152,6 @@ public class GUI {
 		btnAvsluta.setBounds(294, 260, 117, 29);
 		student.add(btnAvsluta);
 
-		String[] orderLine = new String[] { "Product name:", "Amount:",
-				"Price:" };
-		dtmOrderLine = new DefaultTableModel();
-		dtmOrderLine.setColumnIdentifiers(orderLine);
-		tblOrderLine = new JTable(dtmOrderLine);
-		spStudentDetails = new JScrollPane(tblOrderLine);
-		spStudentDetails.setBounds(285, 301, 267, 204);
-		student.add(spStudentDetails);
-
-		String[] order = new String[] { "Order number:", "Price:" };
-		dtmOrder = new DefaultTableModel();
-		dtmOrder.setColumnIdentifiers(order);
-		tblOrder = new JTable(dtmOrder);
-		spStudent = new JScrollPane(tblOrder);
-		spStudent.setBounds(42, 301, 227, 204);
-		student.add(spStudent);
-
-		JButton btnShowDetails = new JButton("Show Details");
-		btnShowDetails.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dtmOrderLine.setRowCount(0);
-				int i = tblOrder.getSelectedRow();
-				// String oNbr = dtmOrder.getValueAt(i, 0).toString();
-				// String cNbr = textCNumber.getText();
-				// Customer c = controller.searchCustomer(cNbr);
-				// Order o = controller.findOrder(c, oNbr);
-				// for (OrderLine ol : o.getOrderLineList()) {
-				// Object[] oa = new Object[] { ol.getProduct().getName(),
-				// ol.getAmount(),
-				// ol.getAmount() * ol.getProduct().getPrice() };
-				// dtmOrderLine.addRow(oa);
-				// }
-			}
-		});
-		btnShowDetails.setBounds(56, 517, 117, 29);
-		student.add(btnShowDetails);
-
 		// KURS
 		JPanel course = new JPanel();
 		tabbedPane.addTab("Kurs", null, course, null);
@@ -232,5 +195,48 @@ public class GUI {
 		JButton btnSearchCourse = new JButton("S\u00F6k");
 		btnSearchCourse.setBounds(341, 172, 117, 29);
 		course.add(btnSearchCourse);
+
+		// REGISTER
+		JPanel register = new JPanel();
+		tabbedPane.addTab("Register", null, register, null);
+		register.setLayout(null);
+
+		String[] orderLine = new String[] { "Product name:", "Amount:",
+				"Price:" };
+		dtmOrderLine = new DefaultTableModel();
+		dtmOrderLine.setColumnIdentifiers(orderLine);
+		tblOrderLine = new JTable(dtmOrderLine);
+		spStudentDetails = new JScrollPane(tblOrderLine);
+		spStudentDetails.setBounds(277, 95, 267, 204);
+		register.add(spStudentDetails);
+
+		String[] order = new String[] { "Order number:", "Price:" };
+		dtmOrder = new DefaultTableModel();
+		dtmOrder.setColumnIdentifiers(order);
+		tblOrder = new JTable(dtmOrder);
+		spStudent = new JScrollPane(tblOrder);
+		spStudent.setBounds(38, 95, 227, 204);
+		register.add(spStudent);
+
+		JButton btnShowDetails = new JButton("Show Details");
+		btnShowDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dtmOrderLine.setRowCount(0);
+				int i = tblOrder.getSelectedRow();
+				// String oNbr = dtmOrder.getValueAt(i, 0).toString();
+				// String cNbr = textCNumber.getText();
+				// Customer c = controller.searchCustomer(cNbr);
+				// Order o = controller.findOrder(c, oNbr);
+				// for (OrderLine ol : o.getOrderLineList()) {
+				// Object[] oa = new Object[] { ol.getProduct().getName(),
+				// ol.getAmount(),
+				// ol.getAmount() * ol.getProduct().getPrice() };
+				// dtmOrderLine.addRow(oa);
+				// }
+			}
+		});
+		btnShowDetails.setBounds(56, 517, 117, 29);
+		register.add(btnShowDetails);
+
 	}
 }
