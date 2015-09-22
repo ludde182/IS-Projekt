@@ -1,8 +1,11 @@
 package t3.isprojekt.view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +19,7 @@ public class GUI {
 	private JTextField textsPnr;
 	private JTextField textsAdress;
 	private JTextField textsTele;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -95,19 +99,48 @@ public class GUI {
 		textsTele.setColumns(10);
 
 		JButton btnAddCustomer = new JButton("L\u00E4gg till");
-		btnAddCustomer.setBounds(42, 206, 117, 29);
+		btnAddCustomer.setBounds(42, 180, 117, 29);
 		student.add(btnAddCustomer);
 
 		JButton btnSearch = new JButton("S\u00F6k");
-		btnSearch.setBounds(172, 206, 117, 29);
+		btnSearch.setBounds(165, 180, 117, 29);
 		student.add(btnSearch);
 
 		JButton btnRemoveCustomer = new JButton("Ta bort");
-		btnRemoveCustomer.setBounds(301, 206, 117, 29);
+		btnRemoveCustomer.setBounds(294, 180, 117, 29);
 		student.add(btnRemoveCustomer);
 
 		JPanel course = new JPanel();
 		tabbedPane.addTab("Kurs", null, course, null);
 		course.setLayout(null);
+
+		JComboBox comboBoxGrade = new JComboBox();
+		comboBoxGrade.setBounds(155, 221, 134, 27);
+		student.add(comboBoxGrade);
+
+		JLabel lblCourseStudent = new JLabel("Kurs:");
+		lblCourseStudent.setBounds(56, 225, 61, 16);
+		student.add(lblCourseStudent);
+
+		JButton btnRegistrera = new JButton("Registrera");
+		btnRegistrera.setBounds(42, 260, 117, 29);
+		student.add(btnRegistrera);
+
+		JButton btnAvregistrera = new JButton("Avregistrera");
+		btnAvregistrera.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAvregistrera.setBounds(165, 260, 117, 29);
+		student.add(btnAvregistrera);
+
+		JButton btnAvsluta = new JButton("Avsluta");
+		btnAvsluta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAvsluta.setBounds(294, 260, 117, 29);
+		student.add(btnAvsluta);
+
 	}
 }
