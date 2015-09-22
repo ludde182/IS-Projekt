@@ -9,8 +9,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class GUI {
 
@@ -20,6 +23,13 @@ public class GUI {
 	private JTextField textsAdress;
 	private JTextField textsTele;
 	private JComboBox comboBox;
+
+	private JScrollPane spOrderLine;
+	private JScrollPane spOrder;
+	private JTable tblOrder;
+	private DefaultTableModel dtmOrder;
+	private JTable tblOrderLine;
+	private DefaultTableModel dtmOrderLine;
 
 	/**
 	 * Launch the application.
@@ -58,20 +68,21 @@ public class GUI {
 		tabbedPane.setBounds(18, 17, 664, 639);
 		frame.getContentPane().add(tabbedPane);
 
+		// STUDENT
 		JPanel student = new JPanel();
 		tabbedPane.addTab("Student", null, student, null);
 		student.setLayout(null);
 
 		JLabel lblsName = new JLabel("Namn: ");
-		lblsName.setBounds(56, 64, 61, 16);
+		lblsName.setBounds(56, 31, 61, 16);
 		student.add(lblsName);
 
 		JLabel lblsPnr = new JLabel("Pnr:");
-		lblsPnr.setBounds(56, 92, 61, 16);
+		lblsPnr.setBounds(56, 70, 61, 16);
 		student.add(lblsPnr);
 
 		JLabel lblsAdress = new JLabel("Adress:");
-		lblsAdress.setBounds(56, 118, 61, 16);
+		lblsAdress.setBounds(56, 106, 61, 16);
 		student.add(lblsAdress);
 
 		JLabel lblsTele = new JLabel("Tele:");
@@ -79,17 +90,17 @@ public class GUI {
 		student.add(lblsTele);
 
 		textsName = new JTextField();
-		textsName.setBounds(155, 58, 134, 28);
+		textsName.setBounds(155, 25, 134, 28);
 		student.add(textsName);
 		textsName.setColumns(10);
 
 		textsPnr = new JTextField();
-		textsPnr.setBounds(155, 86, 134, 28);
+		textsPnr.setBounds(155, 64, 134, 28);
 		student.add(textsPnr);
 		textsPnr.setColumns(10);
 
 		textsAdress = new JTextField();
-		textsAdress.setBounds(155, 112, 134, 28);
+		textsAdress.setBounds(155, 100, 134, 28);
 		student.add(textsAdress);
 		textsAdress.setColumns(10);
 
@@ -109,10 +120,6 @@ public class GUI {
 		JButton btnRemoveCustomer = new JButton("Ta bort");
 		btnRemoveCustomer.setBounds(294, 180, 117, 29);
 		student.add(btnRemoveCustomer);
-
-		JPanel course = new JPanel();
-		tabbedPane.addTab("Kurs", null, course, null);
-		course.setLayout(null);
 
 		JComboBox comboBoxGrade = new JComboBox();
 		comboBoxGrade.setBounds(155, 221, 134, 27);
@@ -142,5 +149,46 @@ public class GUI {
 		btnAvsluta.setBounds(294, 260, 117, 29);
 		student.add(btnAvsluta);
 
+		String[] orderLine = new String[] { "Product name:", "Amount:",
+				"Price:" };
+		dtmOrderLine = new DefaultTableModel();
+		dtmOrderLine.setColumnIdentifiers(orderLine);
+		tblOrderLine = new JTable(dtmOrderLine);
+		spOrderLine = new JScrollPane(tblOrderLine);
+		spOrderLine.setBounds(285, 301, 267, 204);
+		student.add(spOrderLine);
+
+		String[] order = new String[] { "Order number:", "Price:" };
+		dtmOrder = new DefaultTableModel();
+		dtmOrder.setColumnIdentifiers(order);
+		tblOrder = new JTable(dtmOrder);
+		spOrder = new JScrollPane(tblOrder);
+		spOrder.setBounds(42, 301, 227, 204);
+		student.add(spOrder);
+
+		JButton btnShowDetails = new JButton("Show Details");
+		btnShowDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dtmOrderLine.setRowCount(0);
+				int i = tblOrder.getSelectedRow();
+				// String oNbr = dtmOrder.getValueAt(i, 0).toString();
+				// String cNbr = textCNumber.getText();
+				// Customer c = controller.searchCustomer(cNbr);
+				// Order o = controller.findOrder(c, oNbr);
+				// for (OrderLine ol : o.getOrderLineList()) {
+				// Object[] oa = new Object[] { ol.getProduct().getName(),
+				// ol.getAmount(),
+				// ol.getAmount() * ol.getProduct().getPrice() };
+				// dtmOrderLine.addRow(oa);
+				// }
+			}
+		});
+		btnShowDetails.setBounds(56, 517, 117, 29);
+		student.add(btnShowDetails);
+
+		// KURS
+		JPanel course = new JPanel();
+		tabbedPane.addTab("Kurs", null, course, null);
+		course.setLayout(null);
 	}
 }
