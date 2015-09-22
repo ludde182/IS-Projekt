@@ -83,12 +83,7 @@ public class DAL {
 	}
 
 	public void addCourse(String ccode, String cdescription, int hp) throws SQLException {
-		String addCourseSQL = "INSERT INTO Course " + "values(" + ccode + ", " + cdescription + ", " + hp + ")"; // EJ
-																													// FÄRDIG
-																													// lägg
-																													// till
-																													// ytterliggare
-																													// attribut
+		String addCourseSQL = "INSERT INTO Course " + "values(" + ccode + ", " + cdescription + ", " + hp + ")"; // attribut
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
@@ -129,5 +124,13 @@ public class DAL {
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
 		stmt.executeUpdate(addCourseToStudiedSQL);
+	}
+
+	public void deleteStudentFromStudies(int spnr) throws SQLException {
+		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr=? ";
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		stmt = conn.prepareStatement(null);
+		stmt.executeUpdate(deleteStudentFromStudiesSQL);
 	}
 }
