@@ -6,10 +6,10 @@ public class Studied {
 	private String cCode;
 	private String sGrade;
 
-	private Studied(int sPnr, String cCode, String sBetyg) {
+	private Studied(int sPnr, String cCode, String sGrade) {
 		setsPnr(sPnr);
 		setcCode(cCode);
-		setsBetyg(sBetyg);
+		setsGrade(sGrade);
 	}
 
 	public int getsPnr() {
@@ -28,12 +28,12 @@ public class Studied {
 		this.cCode = cCode;
 	}
 
-	public String getsBetyg() {
-		return sBetyg;
+	public String getsGrade() {
+		return sGrade;
 	}
 
-	public void setsBetyg(String sBetyg) {
-		this.sBetyg = sBetyg;
+	public void setsGrade(String sGrade) {
+		this.sGrade = sGrade;
 	}
 
 }
