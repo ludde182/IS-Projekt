@@ -24,12 +24,15 @@ public class GUI {
 	private JTextField textsTele;
 	private JComboBox comboBox;
 
-	private JScrollPane spOrderLine;
-	private JScrollPane spOrder;
+	private JScrollPane spStudentDetails;
+	private JScrollPane spStudent;
 	private JTable tblOrder;
 	private DefaultTableModel dtmOrder;
 	private JTable tblOrderLine;
 	private DefaultTableModel dtmOrderLine;
+	private JTextField textcCode;
+	private JTextField textcDescription;
+	private JTextField textHP;
 
 	/**
 	 * Launch the application.
@@ -154,17 +157,17 @@ public class GUI {
 		dtmOrderLine = new DefaultTableModel();
 		dtmOrderLine.setColumnIdentifiers(orderLine);
 		tblOrderLine = new JTable(dtmOrderLine);
-		spOrderLine = new JScrollPane(tblOrderLine);
-		spOrderLine.setBounds(285, 301, 267, 204);
-		student.add(spOrderLine);
+		spStudentDetails = new JScrollPane(tblOrderLine);
+		spStudentDetails.setBounds(285, 301, 267, 204);
+		student.add(spStudentDetails);
 
 		String[] order = new String[] { "Order number:", "Price:" };
 		dtmOrder = new DefaultTableModel();
 		dtmOrder.setColumnIdentifiers(order);
 		tblOrder = new JTable(dtmOrder);
-		spOrder = new JScrollPane(tblOrder);
-		spOrder.setBounds(42, 301, 227, 204);
-		student.add(spOrder);
+		spStudent = new JScrollPane(tblOrder);
+		spStudent.setBounds(42, 301, 227, 204);
+		student.add(spStudent);
 
 		JButton btnShowDetails = new JButton("Show Details");
 		btnShowDetails.addActionListener(new ActionListener() {
@@ -190,5 +193,44 @@ public class GUI {
 		JPanel course = new JPanel();
 		tabbedPane.addTab("Kurs", null, course, null);
 		course.setLayout(null);
+
+		JLabel lblcCode = new JLabel("Kurskod:");
+		lblcCode.setBounds(43, 47, 61, 16);
+		course.add(lblcCode);
+
+		JLabel lblcDescription = new JLabel("Beskrivning:");
+		lblcDescription.setBounds(43, 85, 94, 16);
+		course.add(lblcDescription);
+
+		JLabel lblHgskolepong = new JLabel("H\u00F6gskolepo\u00E4ng:");
+		lblHgskolepong.setBounds(43, 125, 132, 16);
+		course.add(lblHgskolepong);
+
+		textcCode = new JTextField();
+		textcCode.setBounds(192, 41, 134, 28);
+		course.add(textcCode);
+		textcCode.setColumns(10);
+
+		textcDescription = new JTextField();
+		textcDescription.setBounds(192, 79, 134, 28);
+		course.add(textcDescription);
+		textcDescription.setColumns(10);
+
+		textHP = new JTextField();
+		textHP.setBounds(192, 119, 134, 28);
+		course.add(textHP);
+		textHP.setColumns(10);
+
+		JButton btnAddCourse = new JButton("L\u00E4gg till");
+		btnAddCourse.setBounds(43, 172, 117, 29);
+		course.add(btnAddCourse);
+
+		JButton btnRemoveCourse = new JButton("Ta bort");
+		btnRemoveCourse.setBounds(192, 172, 117, 29);
+		course.add(btnRemoveCourse);
+
+		JButton btnSearchCourse = new JButton("S\u00F6k");
+		btnSearchCourse.setBounds(341, 172, 117, 29);
+		course.add(btnSearchCourse);
 	}
 }
