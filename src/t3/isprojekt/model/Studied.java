@@ -4,13 +4,12 @@ public class Studied {
 
 	private int sPnr;
 	private String cCode;
-	private String sBetyg;
+	private String sGrade;
 
 	private Studied(int sPnr, String cCode, String sBetyg) {
 		setsPnr(sPnr);
 		setcCode(cCode);
 		setsBetyg(sBetyg);
-
 	}
 
 	public int getsPnr() {
