@@ -6,7 +6,7 @@ public class Studied {
 	private int cCode;
 	private int sBetyg;
 
-	private Studied(int sPnr, int cCode) {
+	private Studied(int sPnr, int cCode, int sBetyg) {
 		setsPnr(sPnr);
 		setcCode(cCode);
 		setsBetyg(sBetyg);
