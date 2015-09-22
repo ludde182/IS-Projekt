@@ -3,10 +3,10 @@ package t3.isprojekt.model;
 public class Studied {
 
 	private int sPnr;
-	private int cCode;
-	private int sBetyg;
+	private String cCode;
+	private String sBetyg;
 
-	private Studied(int sPnr, int cCode, int sBetyg) {
+	private Studied(int sPnr, String cCode, String sBetyg) {
 		setsPnr(sPnr);
 		setcCode(cCode);
 		setsBetyg(sBetyg);
@@ -21,19 +21,19 @@ public class Studied {
 		this.sPnr = sPnr;
 	}
 
-	public int getcCode() {
+	public String getcCode() {
 		return cCode;
 	}
 
-	public void setcCode(int cCode) {
+	public void setcCode(String cCode) {
 		this.cCode = cCode;
 	}
 
-	public int getsBetyg() {
+	public String getsBetyg() {
 		return sBetyg;
 	}
 
-	public void setsBetyg(int sBetyg) {
+	public void setsBetyg(String sBetyg) {
 		this.sBetyg = sBetyg;
 	}
 
