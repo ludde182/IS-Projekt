@@ -1,22 +1,23 @@
+
 package t3.isprojekt.dal;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DAL {
+	Connection conn;
+	Statement stmt;
 
-	
-	public static void main (String[] args) {
-		try {
-			Connection con; 
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String url = "jdbc:sqlserver://localhost:1433;database=isprojekt;user=root;password=root;";
-			con = DriverManager.getConnection(url);
-			System.out.println("Det lyckades!!");
-			}
-		catch (SQLException e) {
-			e.printStackTrace();
+	public String writeAllStudentNames() throws SQLException {
+		stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select sname from student");
+		while (rs.next()) {
+			System.out.println(rs.getString("sname"));
 		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		stmt.close();
+
+		return rs.getString("sname");
 	}
 }
