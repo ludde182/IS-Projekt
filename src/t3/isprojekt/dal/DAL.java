@@ -9,9 +9,10 @@ import java.sql.SQLException;
 
 public class DAL {
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3305/isprojekt"; // standardport
-																			// 3306
+	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
+	// 3306,3305
+
 	// Database credentials
 	static final String USER = "root";
 	static final String PASS = "root";
@@ -19,7 +20,7 @@ public class DAL {
 	public static void main(String[] args) {
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = null;
 			PreparedStatement stmt = null;
 			stmt = conn.prepareStatement(null);
@@ -55,7 +56,7 @@ public class DAL {
 	}
 
 	public ResultSet findStudent(int spnr) throws SQLException {
-		String findStudentSQL = "SELECT * FROM STUDENT WHERE spnr=?";
+		String findStudentSQL = "SELECT * FROM Student WHERE spnr=?";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
@@ -65,11 +66,23 @@ public class DAL {
 	}
 
 	public ResultSet findCourse(String ccode) throws SQLException {
-		String findCourseSQL = "SELECT * FROM STUDENT WHERE ccode=?";
+		String findCourseSQL = "SELECT * FROM Course WHERE ccode=?";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
 		ResultSet rset = stmt.executeQuery(findCourseSQL);
+
+		return rset;
+	}
+
+	public ResultSet findResultOnCourse(int spnr) throws SQLException {
+		String findResultOnCourseSQL = "SELECT" + cCode + ", " + sPnr + ", " + Sgrade + " FROM Student INNER JOIN cCO"
+				+ "ourse,";
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		stmt = conn.prepareStatement(null);
+		ResultSet rset = stmt.executeQuery(findResultOnCourseSQL); // EJKLAR
+																	// HJÄLPSNÄLLASLUTA
 
 		return rset;
 	}
@@ -132,5 +145,18 @@ public class DAL {
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
 		stmt.executeUpdate(deleteStudentFromStudiesSQL);
-	}
-}
+	}try
+
+	{
+		// Handles exceptions from the SQLmethods
+	} catch(
+
+	SQLException se3)
+
+	{
+			 se3.printStackTrace();
+		finally {
+		  System.out.
+
+	println(HA det);
+}}
