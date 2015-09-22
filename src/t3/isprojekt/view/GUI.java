@@ -45,5 +45,6 @@ public class GUI {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(18, 17, 664, 639);
 		frame.getContentPane().add(tabbedPane);
+
 	}
 }
