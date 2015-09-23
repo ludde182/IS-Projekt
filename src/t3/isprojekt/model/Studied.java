@@ -6,7 +6,7 @@ public class Studied {
 	private String cCode;
 	private String sGrade;
 
-	private Studied(String sPnr, String cCode, String sGrade) {
+	public Studied(String sPnr, String cCode, String sGrade) {
 		setsPnr(sPnr);
 		setcCode(cCode);
 		setsGrade(sGrade);
