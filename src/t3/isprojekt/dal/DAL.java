@@ -11,7 +11,6 @@ public class DAL {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
-	// 3306,3305
 
 	// Database credentials
 	static final String USER = "root";
