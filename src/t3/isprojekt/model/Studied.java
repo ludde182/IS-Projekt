@@ -2,21 +2,21 @@ package t3.isprojekt.model;
 
 public class Studied {
 
-	private int sPnr;
+	private String sPnr;
 	private String cCode;
 	private String sGrade;
 
-	private Studied(int sPnr, String cCode, String sGrade) {
+	private Studied(String sPnr, String cCode, String sGrade) {
 		setsPnr(sPnr);
 		setcCode(cCode);
 		setsGrade(sGrade);
 	}
 
-	public int getsPnr() {
+	public String getsPnr() {
 		return sPnr;
 	}
 
-	public void setsPnr(int sPnr) {
+	public void setsPnr(String sPnr) {
 		this.sPnr = sPnr;
 	}
 
