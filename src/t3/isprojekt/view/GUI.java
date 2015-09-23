@@ -3,7 +3,6 @@ package t3.isprojekt.view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,6 +14,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import com.sun.j3d.utils.scenegraph.io.retained.Controller;
+
+import t3.isprojekt.controller.*;
 
 public class GUI {
 
@@ -36,6 +38,7 @@ public class GUI {
 	private JTextField textHP;
 	private JTextField textCourseRegister;
 	private JTextField textPnrRegister;
+	private Controller controller;
 
 	/**
 	 * Launch the application.
@@ -118,7 +121,11 @@ public class GUI {
 		JButton btnAddCustomer = new JButton("L\u00E4gg till");
 		btnAddCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String name = textsName.getText();
+				String pnr = textsPnr.getText();
+				String adress = textsAdress.getText();
+				String tele = textsTele.getText();
+				control
 			}
 		});
 		btnAddCustomer.setBounds(42, 180, 117, 29);
