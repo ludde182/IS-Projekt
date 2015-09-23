@@ -7,15 +7,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import t3.isprojekt.model.Course;
+import t3.isprojekt.model.Student;
+import t3.isprojekt.model.Studied;
+
 public class DAL {
-	// JDBC driver name and database URL
+
+	private Student student;
+	private Course course;
+	private Studied studied;
+	private DAL dataBaseAccesLayer;
+	private String sPnr;
+	private String sName;
+	private String sAdress;
+	private String sTfn;
+
 	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
+	// JDBC driver name and database URL
 
-	// Database credentials
 	static final String USER = "root";
 	static final String PASS = "root";
 
+	// Database credentials
 	public static void main(String[] args) {
 
 		try {
@@ -54,18 +68,30 @@ public class DAL {
 		}
 	}
 
-	public ResultSet findStudent(int spnr) throws SQLException {
-		String findStudentSQL = "SELECT * FROM Student WHERE spnr=?";
+	// Connects to the database.
+
+	public Student findStudent(String sPnr) throws SQLException {
+		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr + "'";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
 		ResultSet rset = stmt.executeQuery(findStudentSQL);
 
-		return rset;
+		rset.next();
+		sPnr = rset.getString(1);
+		sName = rset.getString(2);
+		sAdress = rset.getString(3);
+		sTfn = rset.getString(4);
+
+		student = new Student(sPnr, sName, sAdress, sTfn);
+
+		return student;
 	}
 
-	public ResultSet findCourse(String ccode) throws SQLException {
-		String findCourseSQL = "SELECT * FROM Course WHERE ccode=?";
+	// Finds a student with a sPnr input.
+
+	public ResultSet findCourse(String cCode) throws SQLException {
+		String findCourseSQL = "SELECT * FROM Course WHERE cCode=?";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
@@ -74,16 +100,28 @@ public class DAL {
 		return rset;
 	}
 
-	public ResultSet findResultOnCourse(int spnr) throws SQLException {
-		String findResultOnCourseSQL = "SELECT" + cCode + ", " + sPnr + ", " + Sgrade + " FROM Student INNER JOIN cCO"
-				+ "ourse,";
+	// Finds a Course with a cCode input.
+
+	public ResultSet findResultOnCourse(int cCode) throws SQLException {
+		String findResultOnCourseSQL = "SELECT c.cCode, sPnr, sGrade FROM Course c JOIN Studied s ON c.cCode=s.cCode WHERE c.cCode=?;";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
-		ResultSet rset = stmt.executeQuery(findResultOnCourseSQL); // EJKLAR
-																	// HJÄLPSNÄLLASLUTA
+		ResultSet rset = stmt.executeQuery(findResultOnCourseSQL);
 
 		return rset;
+	}
+	// Finds a Students result on a specific Course with a cCode input.
+
+	public ResultSet findStudentResult(int sGrade, int sPnr) throws SQLException {
+		String findStudentResultSQL = "SELECT s.sPnr, cCode, sGrade FROM Student s JOIN Studied st ON s.sPnr=st.sPnr WHERE s.sPnr=?;";
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		stmt = conn.prepareStatement(null);
+		ResultSet rset = stmt.executeQuery(findStudentResultSQL);
+
+		return rset;
+
 	}
 
 	public void addStudent(int spnr, int name) throws SQLException {
@@ -91,60 +129,72 @@ public class DAL {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(addStudentSQL);
 	}
+	// Adds a Student to the database.
 
-	public void addCourse(String ccode, String cdescription, int hp) throws SQLException {
-		String addCourseSQL = "INSERT INTO Course " + "values(" + ccode + ", " + cdescription + ", " + hp + ")"; // attribut
+	public void addCourse(String cCode, String cDescription, int hp) throws SQLException {
+		String addCourseSQL = "INSERT INTO Course " + "values(" + cCode + ", " + cDescription + ", " + hp + ")"; // attribut
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(addCourseSQL);
 	}
+	// Adds a Course to the database.
 
-	public void deleteStudent(String spnr) throws SQLException {
+	public void deleteStudent(String sPnr) throws SQLException {
 
-		String deleteStudentSQL = "DELETE FROM Student WHERE spnr =?";
+		String deleteStudentSQL = "DELETE FROM Student WHERE sPnr =?";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(deleteStudentSQL);
 	}
+	// Deletes a Student from the database.
 
-	public void deleteCourse(String ccode) throws SQLException {
+	public void deleteCourse(String cCode) throws SQLException {
 
-		String deleteCourseSQL = "DELETE FROM Course WHERE ccode =?";
+		String deleteCourseSQL = "DELETE FROM Course WHERE cCode =?";
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		stmt = conn.prepareStatement(null); // lägga till catch i
-											// felhateringsklass eller
-											// motsvarande
+		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(deleteCourseSQL);
 	}
+	// Deletes a Course from the database.
 
 	public void addStudentToStudies(int sPnr, String cCode) throws SQLException {
 		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(addStudentToStudiesSQL);
 	}
+	// Adds a Student to studies.
 
 	public void addCourseToStudied(String cCode, int sPnr, int sGrade) throws SQLException {
 		String addCourseToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+
 		stmt.executeUpdate(addCourseToStudiedSQL);
 	}
 
-	public void deleteStudentFromStudies(int spnr) throws SQLException {
+	// Adds a Course
+	public void deleteStudentFromStudies(int sPnr) throws SQLException {
 		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr=? ";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
+		
 		stmt.executeUpdate(deleteStudentFromStudiesSQL);
 	}try
+	// Deletes Student from Studies.
 
 	{
 		// Handles exceptions from the SQLmethods

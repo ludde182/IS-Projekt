@@ -1,12 +1,12 @@
 package t3.isprojekt.model;
 
 public class Student {
-	private int sPnr;
+	private String sPnr;
 	private String sName;
 	private String sAdress;
-	private int sTfn;
+	private String sTfn;
 
-	private Student(int sPnr, String name, String sAdress, int sTfn) {
+	public Student(String sPnr, String name, String sAdress, String sTfn) {
 		setsPnr(sPnr);
 		setsName(sName);
 		setsAdress(sAdress);
@@ -14,11 +14,11 @@ public class Student {
 
 	}
 
-	public int getsPnr() {
+	public String getsPnr() {
 		return sPnr;
 	}
 
-	public void setsPnr(int sPnr) {
+	public void setsPnr(String sPnr) {
 		this.sPnr = sPnr;
 	}
 
@@ -38,11 +38,11 @@ public class Student {
 		this.sAdress = sAdress;
 	}
 
-	public int getsTfn() {
+	public String getsTfn() {
 		return sTfn;
 	}
 
-	public void setsTfn(int sTfn) {
+	public void setsTfn(String sTfn) {
 		this.sTfn = sTfn;
 	}
 
