@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -267,21 +268,21 @@ public class GUI {
 		btnSearchRegister.setBounds(38, 116, 117, 29);
 		register.add(btnSearchRegister);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(387, 35, 117, 27);
-		register.add(comboBox_1);
-
-		JLabel lblLstlserRegister = new JLabel("L\u00E4st/L\u00E4ser:");
-		lblLstlserRegister.setBounds(277, 39, 83, 16);
-		register.add(lblLstlserRegister);
-
 		JLabel lblGradeRegister = new JLabel("Betyg:");
 		lblGradeRegister.setBounds(277, 75, 61, 16);
 		register.add(lblGradeRegister);
 
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(387, 71, 117, 27);
+		comboBox_2.setBounds(356, 71, 117, 27);
 		register.add(comboBox_2);
+
+		JRadioButton rdbtnLst = new JRadioButton("L\u00E4st");
+		rdbtnLst.setBounds(307, 35, 141, 23);
+		register.add(rdbtnLst);
+
+		JRadioButton rdbtnLser = new JRadioButton("L\u00E4ser");
+		rdbtnLser.setBounds(403, 35, 141, 23);
+		register.add(rdbtnLser);
 
 	}
 }
