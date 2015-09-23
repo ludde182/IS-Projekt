@@ -5,6 +5,12 @@ public class Course {
 	private int hp;
 	private String cDescription;
 
+	public Course(String cCode, String cDescription, int hp) {
+		setcCode(cCode);
+		setcDescription(cDescription);
+		setHp(hp);
+	}
+
 	public String getcCode() {
 		return cCode;
 	}
