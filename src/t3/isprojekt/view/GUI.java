@@ -33,6 +33,8 @@ public class GUI {
 	private JTextField textcCode;
 	private JTextField textcDescription;
 	private JTextField textHP;
+	private JTextField textCourseRegister;
+	private JTextField textPnrRegister;
 
 	/**
 	 * Launch the application.
@@ -207,7 +209,7 @@ public class GUI {
 		dtmOrderLine.setColumnIdentifiers(orderLine);
 		tblOrderLine = new JTable(dtmOrderLine);
 		spStudentDetails = new JScrollPane(tblOrderLine);
-		spStudentDetails.setBounds(277, 95, 267, 204);
+		spStudentDetails.setBounds(277, 167, 267, 258);
 		register.add(spStudentDetails);
 
 		String[] order = new String[] { "Order number:", "Price:" };
@@ -215,7 +217,7 @@ public class GUI {
 		dtmOrder.setColumnIdentifiers(order);
 		tblOrder = new JTable(dtmOrder);
 		spStudent = new JScrollPane(tblOrder);
-		spStudent.setBounds(38, 95, 227, 204);
+		spStudent.setBounds(38, 167, 227, 258);
 		register.add(spStudent);
 
 		JButton btnShowDetails = new JButton("Show Details");
@@ -235,8 +237,46 @@ public class GUI {
 				// }
 			}
 		});
-		btnShowDetails.setBounds(56, 517, 117, 29);
+		btnShowDetails.setBounds(38, 437, 117, 29);
 		register.add(btnShowDetails);
+
+		JLabel lblKursnr = new JLabel("Kursnr:");
+		lblKursnr.setBounds(38, 39, 61, 16);
+		register.add(lblKursnr);
+
+		textCourseRegister = new JTextField();
+		textCourseRegister.setBounds(111, 33, 134, 28);
+		register.add(textCourseRegister);
+		textCourseRegister.setColumns(10);
+
+		JLabel lblPnr = new JLabel("Pnr:");
+		lblPnr.setBounds(38, 75, 61, 16);
+		register.add(lblPnr);
+
+		textPnrRegister = new JTextField();
+		textPnrRegister.setBounds(111, 69, 134, 28);
+		register.add(textPnrRegister);
+		textPnrRegister.setColumns(10);
+
+		JButton btnSearchRegister = new JButton("S\u00F6k");
+		btnSearchRegister.setBounds(38, 116, 117, 29);
+		register.add(btnSearchRegister);
+
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(387, 35, 117, 27);
+		register.add(comboBox_1);
+
+		JLabel lblLstlserRegister = new JLabel("L\u00E4st/L\u00E4ser:");
+		lblLstlserRegister.setBounds(277, 39, 83, 16);
+		register.add(lblLstlserRegister);
+
+		JLabel lblGradeRegister = new JLabel("Betyg:");
+		lblGradeRegister.setBounds(277, 75, 61, 16);
+		register.add(lblGradeRegister);
+
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(387, 71, 117, 27);
+		register.add(comboBox_2);
 
 	}
 }
