@@ -17,10 +17,15 @@ public class DAL {
 	private Course course;
 	private Studied studied;
 	private DAL dataBaseAccesLayer;
+
 	private String sPnr;
 	private String sName;
 	private String sAdress;
 	private String sTfn;
+
+	private String cCode;
+	private String cDescription;
+	private int hp;
 
 	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
@@ -90,14 +95,21 @@ public class DAL {
 
 	// Finds a student with a sPnr input.
 
-	public ResultSet findCourse(String cCode) throws SQLException {
-		String findCourseSQL = "SELECT * FROM Course WHERE cCode=?";
+	public Course findCourse(String cCode) throws SQLException {
+		String findCourseSQL = "SELECT * FROM Course WHERE cCode= '" + cCode + "'";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(null);
 		ResultSet rset = stmt.executeQuery(findCourseSQL);
 
-		return rset;
+		rset.next();
+		cCode = rset.getString(1);
+		cDescription = rset.getString(2);
+		hp = Integer.valueOf(rset.getString(3));
+
+		course = new Course(cCode, cDescription, hp);
+
+		return Course;
 	}
 
 	// Finds a Course with a cCode input.
