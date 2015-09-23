@@ -1,5 +1,7 @@
 package t3.isprojekt.controller;
 
+import java.sql.SQLException;
+
 import t3.isprojekt.dal.DAL;
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
@@ -13,6 +15,16 @@ public class Controller {
 
 	public Controller() {
 		dataAccessLayer = new DAL();
+	}
+
+	public Student findStudent(String pnr) throws SQLException {
+		student = dataAccessLayer.findStudent(pnr);
+		return student;
+	}
+
+	public Course findCourse(String cCode) throws SQLException {
+		course = dataAccessLayer.findCourse(cCode);
+		return course;
 	}
 
 }

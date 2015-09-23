@@ -115,6 +115,11 @@ public class GUI {
 		textsTele.setColumns(10);
 
 		JButton btnAddCustomer = new JButton("L\u00E4gg till");
+		btnAddCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnAddCustomer.setBounds(42, 180, 117, 29);
 		student.add(btnAddCustomer);
 

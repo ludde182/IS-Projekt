@@ -11,7 +11,6 @@ public class Student {
 		setsName(sName);
 		setsAdress(sAdress);
 		setsTfn(sTfn);
-
 	}
 
 	public String getsPnr() {
