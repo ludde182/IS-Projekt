@@ -77,11 +77,15 @@ public class DAL {
 
 	// Connects to the database.
 
+	/**************************************
+	 * Search methods
+	 **************************************/
+
 	public Student findStudent(String sPnr) throws SQLException {
 		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(findStudentSQL);
 
 		rset.next();
@@ -102,7 +106,7 @@ public class DAL {
 		String findCourseSQL = "SELECT * FROM Course WHERE cCode= '" + cCode + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(findCourseSQL);
 
 		rset.next();
@@ -125,7 +129,7 @@ public class DAL {
 				+ cCode + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(findResultOnCourseSQL);
 
 		while (rset.next()) {
@@ -144,7 +148,7 @@ public class DAL {
 				+ cCode + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(findStudentResultSQL);
 
 		while (rset.next()) {
@@ -157,12 +161,16 @@ public class DAL {
 		stmt.close();
 	}
 
+	/****************************************
+	 * Manage database
+	 *********************************/
+
 	public void addStudent(String sPnr, String sName, String sAdress, String sTfn) throws SQLException {
 		String addStudentSQL = "INSERT INTO Student " + "values('" + sPnr + "', '" + sName + "', '" + sAdress + "', "
 				+ sTfn + ")";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(addStudentSQL);
 		stmt.close();
@@ -170,10 +178,11 @@ public class DAL {
 	// Adds a Student to the database.
 
 	public void addCourse(String cCode, String cDescription, int hp) throws SQLException {
+
 		String addCourseSQL = "INSERT INTO Course " + "values('" + cCode + "', '" + cDescription + "', '" + hp + "')";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(addCourseSQL);
 		stmt.close();
@@ -185,7 +194,7 @@ public class DAL {
 		String deleteStudentSQL = "DELETE FROM Student WHERE sPnr='" + sPnr + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(deleteStudentSQL);
 		stmt.close();
@@ -197,7 +206,7 @@ public class DAL {
 		String deleteCourseSQL = "DELETE FROM Course WHERE cCode='" + cCode + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(deleteCourseSQL);
 		stmt.close();
@@ -208,7 +217,7 @@ public class DAL {
 		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(addStudentToStudiesSQL);
 		stmt.close();
@@ -219,7 +228,7 @@ public class DAL {
 		String addCourseToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(addCourseToStudiedSQL);
 		stmt.close();
@@ -230,20 +239,28 @@ public class DAL {
 		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr='" + sPnr + "'";
 		Connection conn = null;
 		Statement stmt = null;
-		stmt = conn.prepareStatement(null);
+		stmt = conn.createStatement();
 
 		stmt.executeUpdate(deleteStudentFromStudiesSQL);
 		stmt.close();
 	}
-
 	// Deletes Student from Studies.
-	{
-	try
-	
+
+	public String findPercentageGradeA(String cCode, String sGrade) throws SQLException {
+		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"+cCode+"')) AS GradePercentage"
+										 +"FROM Studied GROUP BY cCode, sGrade HAVING cCode='"+cCode+"' AND sGrade'A'";
+		Connection conn = null;
+		Statement stmt = null;
+		stmt = conn.createStatement();
+
+		
+	}}
+
+	{try
 
 	{
-		// Handles exceptions from the SQLmethods
-	} catch(
+	// Handles exceptions from the SQLmethods
+	}catch(
 
 	SQLException se3)
 
