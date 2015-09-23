@@ -17,9 +17,11 @@ public class Controller {
 		dataAccessLayer = new DAL();
 	}
 
+
 	public void addStudent(String pnr, String name, String adress, String tel) {
 		// dataAccessLayer.addStudent(pnr, name);
 	}
+	public void addCourse()
 
 	public Student findStudent(String pnr) throws SQLException {
 		student = dataAccessLayer.findStudent(pnr);

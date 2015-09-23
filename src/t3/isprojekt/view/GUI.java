@@ -3,6 +3,8 @@ package t3.isprojekt.view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,9 +16,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import com.sun.j3d.utils.scenegraph.io.retained.Controller;
 
-import t3.isprojekt.controller.*;
+import t3.isprojekt.controller.Controller;
+import t3.isprojekt.model.Student;
 
 public class GUI {
 
@@ -83,11 +85,11 @@ public class GUI {
 		student.setLayout(null);
 
 		JLabel lblsName = new JLabel("Namn: ");
-		lblsName.setBounds(56, 31, 61, 16);
+		lblsName.setBounds(56, 70, 61, 16);
 		student.add(lblsName);
 
 		JLabel lblsPnr = new JLabel("Pnr:");
-		lblsPnr.setBounds(56, 70, 61, 16);
+		lblsPnr.setBounds(56, 31, 61, 16);
 		student.add(lblsPnr);
 
 		JLabel lblsAdress = new JLabel("Adress:");
@@ -99,12 +101,12 @@ public class GUI {
 		student.add(lblsTele);
 
 		textsName = new JTextField();
-		textsName.setBounds(155, 25, 134, 28);
+		textsName.setBounds(155, 64, 134, 28);
 		student.add(textsName);
 		textsName.setColumns(10);
 
 		textsPnr = new JTextField();
-		textsPnr.setBounds(155, 64, 134, 28);
+		textsPnr.setBounds(155, 25, 134, 28);
 		student.add(textsPnr);
 		textsPnr.setColumns(10);
 
@@ -125,17 +127,36 @@ public class GUI {
 				String pnr = textsPnr.getText();
 				String adress = textsAdress.getText();
 				String tele = textsTele.getText();
-				control
+				controller.addStudent(pnr, name, adress, tele);
 			}
 		});
 		btnAddCustomer.setBounds(42, 180, 117, 29);
 		student.add(btnAddCustomer);
 
 		JButton btnSearch = new JButton("S\u00F6k");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textsPnr.getText();
+				try {
+					Student student = controller.findStudent(pnr);
+					textsName.setText(student.getsName());
+					textsAdress.setText(student.getsAdress());
+					textsTele.setText(student.getsTfn());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnSearch.setBounds(165, 180, 117, 29);
 		student.add(btnSearch);
 
 		JButton btnRemoveCustomer = new JButton("Ta bort");
+		btnRemoveCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnRemoveCustomer.setBounds(294, 180, 117, 29);
 		student.add(btnRemoveCustomer);
 
@@ -200,6 +221,14 @@ public class GUI {
 		textHP.setColumns(10);
 
 		JButton btnAddCourse = new JButton("L\u00E4gg till");
+		btnAddCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cCode = textcCode.getText();
+				String cDescription = textcDescription.getText();
+				int hp = Integer.parseInt(textHP.getText());
+
+			}
+		});
 		btnAddCourse.setBounds(43, 172, 117, 29);
 		course.add(btnAddCourse);
 
