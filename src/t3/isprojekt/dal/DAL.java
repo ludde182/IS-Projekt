@@ -109,7 +109,7 @@ public class DAL {
 
 		course = new Course(cCode, cDescription, hp);
 
-		return Course;
+		return course;
 	}
 
 	// Finds a Course with a cCode input.
