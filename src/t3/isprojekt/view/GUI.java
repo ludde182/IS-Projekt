@@ -43,6 +43,7 @@ public class GUI {
 	private JTextField textPnrRegister;
 	private Controller controller;
 	private Course course;
+	private JTextField textsPnr_1;
 
 	/**
 	 * Launch the application.
@@ -195,15 +196,15 @@ public class GUI {
 		student.add(btnRemoveCustomer);
 
 		JComboBox comboBoxGrade = new JComboBox();
-		comboBoxGrade.setBounds(155, 221, 134, 27);
+		comboBoxGrade.setBounds(155, 350, 134, 27);
 		student.add(comboBoxGrade);
 
 		JLabel lblCourseStudent = new JLabel("Kurs:");
-		lblCourseStudent.setBounds(56, 225, 61, 16);
+		lblCourseStudent.setBounds(56, 354, 61, 16);
 		student.add(lblCourseStudent);
 
 		JButton btnRegistrera = new JButton("Registrera");
-		btnRegistrera.setBounds(42, 260, 117, 29);
+		btnRegistrera.setBounds(42, 382, 117, 29);
 		student.add(btnRegistrera);
 
 		JButton btnAvregistrera = new JButton("Avregistrera");
@@ -211,7 +212,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAvregistrera.setBounds(165, 260, 117, 29);
+		btnAvregistrera.setBounds(172, 382, 117, 29);
 		student.add(btnAvregistrera);
 
 		JButton btnAvsluta = new JButton("Avsluta");
@@ -219,8 +220,21 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAvsluta.setBounds(294, 260, 117, 29);
+		btnAvsluta.setBounds(294, 382, 117, 29);
 		student.add(btnAvsluta);
+
+		JLabel lblsPnr_1 = new JLabel("Pnr:");
+		lblsPnr_1.setBounds(56, 316, 61, 16);
+		student.add(lblsPnr_1);
+
+		textsPnr_1 = new JTextField();
+		textsPnr_1.setBounds(155, 310, 134, 28);
+		student.add(textsPnr_1);
+		textsPnr_1.setColumns(10);
+
+		JLabel lblRegistreraPKurs = new JLabel("Registrera p\u00E5 kurs");
+		lblRegistreraPKurs.setBounds(56, 283, 141, 16);
+		student.add(lblRegistreraPKurs);
 
 		// KURS
 		JPanel course = new JPanel();
