@@ -127,7 +127,20 @@ public class GUI {
 				String pnr = textsPnr.getText();
 				String adress = textsAdress.getText();
 				String tele = textsTele.getText();
-				controller.addStudent(pnr, name, adress, tele);
+				try {
+					controller.addStudent(pnr, name, adress, tele);
+					textsPnr.setText("StudentAdded");
+					textsName.setText("");
+					textsAdress.setText("");
+					textsTele.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr.setText("StudentNotAdded");
+					textsName.setText("");
+					textsAdress.setText("");
+					textsTele.setText("");
+				}
 			}
 		});
 		btnAddCustomer.setBounds(42, 180, 117, 29);
@@ -137,15 +150,21 @@ public class GUI {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
-				try {
-					Student student = controller.findStudent(pnr);
+				Student student;
+				try { // WHAT
+					student = controller.findStudent(pnr);
 					textsName.setText(student.getsName());
 					textsAdress.setText(student.getsAdress());
 					textsTele.setText(student.getsTfn());
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					textsPnr.setText("NoStudentFound");
+					textsName.setText("");
+					textsAdress.setText("");
+					textsTele.setText("");
 				}
+
 			}
 		});
 		btnSearch.setBounds(165, 180, 117, 29);
@@ -154,7 +173,20 @@ public class GUI {
 		JButton btnRemoveCustomer = new JButton("Ta bort");
 		btnRemoveCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				try {
+					controller.removeStudent(textsPnr.getText());
+					textsPnr.setText("StudentRemoved");
+					textsName.setText("");
+					textsAdress.setText("");
+					textsTele.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr.setText("NoStudentFound");
+					textsName.setText("");
+					textsAdress.setText("");
+					textsTele.setText("");
+				}
 			}
 		});
 		btnRemoveCustomer.setBounds(294, 180, 117, 29);
@@ -226,6 +258,18 @@ public class GUI {
 				String cCode = textcCode.getText();
 				String cDescription = textcDescription.getText();
 				int hp = Integer.parseInt(textHP.getText());
+				try {
+					controller.addCourse(cCode, cDescription, hp);
+					textcCode.setText("CourseAdded");
+					textcDescription.setText("");
+					textHP.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textcCode.setText("CourseAdded");
+					textcDescription.setText("");
+					textHP.setText("");
+				}
 
 			}
 		});
