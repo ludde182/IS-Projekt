@@ -102,6 +102,22 @@ public class DAL {
 
 	// Finds a student with a sPnr input.
 
+	public ArrayList<Course> findAllCourses(String cCode) throws SQLException {
+		ArrayList<Course> courseList = new ArrayList<Course>();
+		String findAllCoursesSQL = "Select'" + cCode + "'FROM Course;";
+		Connection conn = null;
+		Statement stmt = null;
+		stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(findAllCoursesSQL);
+
+		while (rset.next()) {
+			course = new Course(rset.getString(1), rset.getString(2), rset.getInt(3));
+			courseList.add(course);
+		}
+		return courseList;
+		stmt.close();
+	}
+
 	public Course findCourse(String cCode) throws SQLException {
 		String findCourseSQL = "SELECT * FROM Course WHERE cCode= '" + cCode + "'";
 		Connection conn = null;
