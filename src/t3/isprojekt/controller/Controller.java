@@ -17,11 +17,16 @@ public class Controller {
 		dataAccessLayer = new DAL();
 	}
 
+	public void addStudent(String pnr, String name, String adress, String tel)
+			throws SQLException {
+		dataAccessLayer.addStudent(pnr, name, adress, tel);
 
-	public void addStudent(String pnr, String name, String adress, String tel) {
-		// dataAccessLayer.addStudent(pnr, name);
 	}
-	public void addCourse()
+
+	public void addCourse(String cCode, String cDescription, int hp)
+			throws SQLException {
+		dataAccessLayer.addCourse(cCode, cDescription, hp);
+	}
 
 	public Student findStudent(String pnr) throws SQLException {
 		student = dataAccessLayer.findStudent(pnr);
@@ -33,4 +38,21 @@ public class Controller {
 		return course;
 	}
 
+	public void removeCourse(String cCode) throws SQLException {
+		dataAccessLayer.deleteCourse(cCode);
+	}
+
+	public void removeStudent(String pnr) throws SQLException {
+		dataAccessLayer.deleteStudent(pnr);
+	}
+
+	public void addCourseToStudied(String cCode, String sPnr, String sGrade)
+			throws SQLException {
+		dataAccessLayer.addCourseToStudied(cCode, sPnr, sGrade);
+	}
+
+	public void addCourseToStudies(String sPnr, String cCode)
+			throws SQLException {
+		dataAccessLayer.addStudentToStudies(sPnr, cCode);
+	}
 }
