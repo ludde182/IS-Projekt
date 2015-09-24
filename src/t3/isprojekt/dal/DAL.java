@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
@@ -28,15 +28,14 @@ public class DAL {
 	private String cDescription;
 	private int hp;
 	private String sGrade;
-
+	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
-	// JDBC driver name and database URL
 
+	// Database credentials
 	static final String USER = "root";
 	static final String PASS = "root";
 
-	// Database credentials
 	public static void main(String[] args) {
 
 		try {
@@ -75,12 +74,10 @@ public class DAL {
 		}
 	}
 
-	// Connects to the database.
-
 	/***************************************
 	 * Search methods
 	 **************************************/
-
+	// Finds a student with a sPnr input.
 	public Student findStudent(String sPnr) throws SQLException {
 		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr + "'";
 		Connection conn = null;
@@ -100,24 +97,29 @@ public class DAL {
 		stmt.close();
 	}
 
-	// Finds a student with a sPnr input.
-
-	public ArrayList<Course> findAllCourses(String cCode) throws SQLException {
+	// Finds all courses and returns a list.
+	public String[] findAllCourses() throws SQLException {
 		ArrayList<Course> courseList = new ArrayList<Course>();
-		String findAllCoursesSQL = "Select'" + cCode + "'FROM Course;";
+		String findAllCoursesSQL = "Select* FROM Course;";
 		Connection conn = null;
 		Statement stmt = null;
 		stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(findAllCoursesSQL);
-
 		while (rset.next()) {
 			course = new Course(rset.getString(1), rset.getString(2), rset.getInt(3));
 			courseList.add(course);
 		}
-		return courseList;
+		int i = 0;
+		String[] clist = new String[courseList.size()];
+		for (Course c : courseList) {
+			clist[i] = c.getcCode();
+			i++;
+		}
+		return clist;
 		stmt.close();
 	}
 
+	// Finds a Course with a cCode input.
 	public Course findCourse(String cCode) throws SQLException {
 		String findCourseSQL = "SELECT * FROM Course;";
 		Connection conn = null;
@@ -136,8 +138,7 @@ public class DAL {
 		stmt.close();
 	}
 
-	// Finds a Course with a cCode input.
-
+	// Finds a Students result on a specific Course with a cCode input.
 	public ArrayList<Student> findResultOnCourse(String cCode) throws SQLException {
 		ArrayList<Student> resultList = new ArrayList<Student>();
 
@@ -155,8 +156,8 @@ public class DAL {
 		return resultList;
 		stmt.close();
 	}
-	// Finds a Students result on a specific Course with a cCode input.
 
+	// Finds a specific Students result.
 	public ArrayList<Studied> findStudentResult(String cCode, String sPnr) throws SQLException {
 		ArrayList<Studied> studiedList = new ArrayList<Studied>();
 
@@ -177,6 +178,8 @@ public class DAL {
 		stmt.close();
 	}
 
+	// Calculates how many percent of the Students got an A on a specific
+	// Course.
 	public String findPercentageGradeA(String cCode, String sGrade) throws SQLException {
 		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
 				+ cCode + "')) AS GradePercentage" + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
@@ -196,6 +199,7 @@ public class DAL {
 		stmt.close();
 	}
 
+	// Finds all Students reading a specific course.
 	public ArrayList<Student> findAllStudetsReadingCourse(String cCode) throws SQLException {
 		ArrayList<Student> currentlyReadingList = new ArrayList<Student>();
 
@@ -218,7 +222,7 @@ public class DAL {
 	/*****************************************
 	 * Manage database
 	 *********************************/
-
+	// Adds a Student to the database.
 	public boolean addStudent(String sPnr, String sName, String sAdress, String sTfn) throws SQLException {
 		String addStudentSQL = "INSERT INTO Student " + "values('" + sPnr + "', '" + sName + "', '" + sAdress + "', "
 				+ sTfn + ")";
@@ -229,8 +233,8 @@ public class DAL {
 		stmt.executeUpdate(addStudentSQL);
 		stmt.close();
 	}
-	// Adds a Student to the database.
 
+	// Adds a Course to the database.
 	public boolean addCourse(String cCode, String cDescription, int hp) throws SQLException {
 
 		String addCourseSQL = "INSERT INTO Course " + "values('" + cCode + "', '" + cDescription + "', '" + hp + "')";
@@ -241,8 +245,8 @@ public class DAL {
 		stmt.executeUpdate(addCourseSQL);
 		stmt.close();
 	}
-	// Adds a Course to the database.
 
+	// Deletes a Student from the database.
 	public boolean deleteStudent(String sPnr) throws SQLException {
 
 		String deleteStudentSQL = "DELETE FROM Student WHERE sPnr='" + sPnr + "'";
@@ -253,8 +257,8 @@ public class DAL {
 		stmt.executeUpdate(deleteStudentSQL);
 		stmt.close();
 	}
-	// Deletes a Student from the database.
 
+	// Deletes a Course from the database.
 	public boolean deleteCourse(String cCode) throws SQLException {
 
 		String deleteCourseSQL = "DELETE FROM Course WHERE cCode='" + cCode + "'";
@@ -265,8 +269,8 @@ public class DAL {
 		stmt.executeUpdate(deleteCourseSQL);
 		stmt.close();
 	}
-	// Deletes a Course from the database.
 
+	// Adds a Student to studies.
 	public boolean addStudentToStudies(String sPnr, String cCode) throws SQLException {
 		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
 		Connection conn = null;
@@ -276,8 +280,8 @@ public class DAL {
 		stmt.executeUpdate(addStudentToStudiesSQL);
 		stmt.close();
 	}
-	// Adds a Student to studies.
 
+	// Adds a Course to Studied.
 	public boolean addCourseToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
 		String addCourseToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
 		Connection conn = null;
