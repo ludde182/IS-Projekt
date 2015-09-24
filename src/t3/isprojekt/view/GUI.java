@@ -95,10 +95,6 @@ public class GUI {
 		lblsName.setBounds(56, 70, 61, 16);
 		student.add(lblsName);
 
-		JLabel lblsPnr = new JLabel("Pnr:");
-		lblsPnr.setBounds(56, 31, 61, 16);
-		student.add(lblsPnr);
-
 		JLabel lblsAdress = new JLabel("Adress:");
 		lblsAdress.setBounds(56, 106, 61, 16);
 		student.add(lblsAdress);
@@ -224,31 +220,20 @@ public class GUI {
 		JButton btnAvregistrera = new JButton("Avregistrera");
 		btnAvregistrera.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					controller.removeStudentFromStudies(textsPnr.getText(),
+							comboBox.getSelectedItem().toString());
+					textsPnr.setText("Removed");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr.setText("NotRemoved");
+				}
 
 			}
 		});
 		btnAvregistrera.setBounds(172, 382, 117, 29);
 		student.add(btnAvregistrera);
-
-		JButton btnAvsluta = new JButton("Avsluta");
-		btnAvsluta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String pnr = textsPnr_1.getText();
-				String cCode = comboBox.getSelectedItem().toString();
-				try {
-					controller.removeStudentFromStudies(pnr);
-					controller.addCourseToStudies(pnr, cCode);
-					textsPnr_1.setText("CourseReg");
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					textsPnr_1.setText("NoCourseReg");
-				}
-
-			}
-		});
-		btnAvsluta.setBounds(294, 382, 117, 29);
-		student.add(btnAvsluta);
 
 		JLabel lblsPnr_1 = new JLabel("Pnr:");
 		lblsPnr_1.setBounds(56, 316, 61, 16);
@@ -266,6 +251,51 @@ public class GUI {
 		comboBox = new JComboBox(controller.findAllCourses());
 		comboBox.setBounds(155, 350, 134, 27);
 		student.add(comboBox);
+
+		JLabel lblBetyg = new JLabel("Betyg:");
+		lblBetyg.setBounds(315, 316, 61, 16);
+		student.add(lblBetyg);
+
+		String[] aList;
+		aList = new String[6];
+		aList[0] = "U";
+		aList[1] = "E";
+		aList[2] = "D";
+		aList[3] = "C";
+		aList[4] = "B";
+		aList[5] = "A";
+		final JComboBox comboBox_1 = new JComboBox(aList);
+		comboBox_1.setBounds(369, 312, 134, 27);
+		student.add(comboBox_1);
+
+		JButton btnAvsluta = new JButton("Avsluta");
+		btnAvsluta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String grade = comboBox_1.getSelectedItem().toString();
+				String pnr = textsPnr_1.getText();
+				String cCode = comboBox.getSelectedItem().toString();
+				try {
+					controller.removeStudentFromStudies(pnr, cCode);
+					controller.addCourseToStudied(cCode, pnr, grade);
+					textsPnr_1.setText("CourseReg");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr_1.setText("NoCourseReg");
+				}
+
+			}
+		});
+		btnAvsluta.setBounds(294, 382, 117, 29);
+		student.add(btnAvsluta);
+
+		JLabel lblendastVidAvsluta = new JLabel("(endast vid avsluta kurs)");
+		lblendastVidAvsluta.setBounds(325, 344, 161, 16);
+		student.add(lblendastVidAvsluta);
+
+		JLabel lblsPnr = new JLabel("Pnr:*");
+		lblsPnr.setBounds(56, 31, 61, 16);
+		student.add(lblsPnr);
 
 		// KURS
 		JPanel course = new JPanel();
