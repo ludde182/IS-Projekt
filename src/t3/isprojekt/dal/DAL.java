@@ -29,6 +29,7 @@ public class DAL {
 	private int hp;
 	private String sGrade;
 	// JDBC driver name and database URL
+
 	static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	static final String DB_URL = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
 
@@ -42,7 +43,7 @@ public class DAL {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = null;
 			Statement stmt = null;
-			stmt = conn.prepareStatement(null);
+			stmt = conn.createStatement();
 
 			// Open a connection
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -293,8 +294,9 @@ public class DAL {
 	}
 
 	// Adds a Course
-	public boolean deleteStudentFromStudies(String sPnr) throws SQLException {
-		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr='" + sPnr + "'";
+	public boolean deleteStudentFromStudies(String sPnr, String cCode) throws SQLException {
+		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr='" + sPnr + "' AND cCode='" + cCode
+				+ "';";
 		Connection conn = null;
 		Statement stmt = null;
 		stmt = conn.createStatement();
@@ -304,21 +306,18 @@ public class DAL {
 	}
 	// Deletes Student from Studies.
 
-	}
-
-	{try
-
-	{
 	// Handles exceptions from the SQLmethods
 	}catch(
 
 	SQLException se3)
 
 	{
-			 se3.printStackTrace();
-		finally {
+
+		se3.printStackTrace();
+	} finally
+
+	{
 		  System.out.println();
 
 }
-		}
-}
+}}
