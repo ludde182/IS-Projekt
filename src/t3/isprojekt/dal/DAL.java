@@ -119,7 +119,7 @@ public class DAL {
 	}
 
 	public Course findCourse(String cCode) throws SQLException {
-		String findCourseSQL = "SELECT * FROM Course WHERE cCode= '" + cCode + "'";
+		String findCourseSQL = "SELECT * FROM Course;";
 		Connection conn = null;
 		Statement stmt = null;
 		stmt = conn.createStatement();
