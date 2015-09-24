@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import t3.isprojekt.controller.Controller;
+import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
 
 public class GUI {
@@ -41,6 +42,7 @@ public class GUI {
 	private JTextField textCourseRegister;
 	private JTextField textPnrRegister;
 	private Controller controller;
+	private Course course;
 
 	/**
 	 * Launch the application.
@@ -266,21 +268,56 @@ public class GUI {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					textcCode.setText("CourseAdded");
+					textcCode.setText("CourseNotAdded");
 					textcDescription.setText("");
 					textHP.setText("");
 				}
-
 			}
 		});
 		btnAddCourse.setBounds(43, 172, 117, 29);
 		course.add(btnAddCourse);
 
 		JButton btnRemoveCourse = new JButton("Ta bort");
+		btnRemoveCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cCode = textcCode.getText();
+				try {
+					controller.removeCourse(cCode);
+					textcCode.setText("CourseRemoved");
+					textcDescription.setText("");
+					textHP.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textcCode.setText("NoCourseRemoved");
+					textcDescription.setText("");
+					textHP.setText("");
+				}
+
+			}
+		});
 		btnRemoveCourse.setBounds(192, 172, 117, 29);
 		course.add(btnRemoveCourse);
 
 		JButton btnSearchCourse = new JButton("S\u00F6k");
+		btnSearchCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cCode = textcCode.getText();
+				try {
+					Course course = controller.findCourse(cCode);
+					textcDescription.setText(course.getcDescription());
+					int hp = course.getHp();
+					String shp = Integer.toString(hp);
+					textHP.setText(shp);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textcCode.setText("NoCourseFound");
+					textcDescription.setText("");
+					textHP.setText("");
+				}
+			}
+		});
 		btnSearchCourse.setBounds(341, 172, 117, 29);
 		course.add(btnSearchCourse);
 
