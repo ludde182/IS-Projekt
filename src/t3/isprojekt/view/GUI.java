@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import t3.isprojekt.controller.Controller;
+import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
 
 public class GUI {
@@ -41,6 +42,8 @@ public class GUI {
 	private JTextField textCourseRegister;
 	private JTextField textPnrRegister;
 	private Controller controller;
+	private Course course;
+	private JTextField textsPnr_1;
 
 	/**
 	 * Launch the application.
@@ -193,15 +196,15 @@ public class GUI {
 		student.add(btnRemoveCustomer);
 
 		JComboBox comboBoxGrade = new JComboBox();
-		comboBoxGrade.setBounds(155, 221, 134, 27);
+		comboBoxGrade.setBounds(155, 350, 134, 27);
 		student.add(comboBoxGrade);
 
 		JLabel lblCourseStudent = new JLabel("Kurs:");
-		lblCourseStudent.setBounds(56, 225, 61, 16);
+		lblCourseStudent.setBounds(56, 354, 61, 16);
 		student.add(lblCourseStudent);
 
 		JButton btnRegistrera = new JButton("Registrera");
-		btnRegistrera.setBounds(42, 260, 117, 29);
+		btnRegistrera.setBounds(42, 382, 117, 29);
 		student.add(btnRegistrera);
 
 		JButton btnAvregistrera = new JButton("Avregistrera");
@@ -209,7 +212,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAvregistrera.setBounds(165, 260, 117, 29);
+		btnAvregistrera.setBounds(172, 382, 117, 29);
 		student.add(btnAvregistrera);
 
 		JButton btnAvsluta = new JButton("Avsluta");
@@ -217,8 +220,21 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAvsluta.setBounds(294, 260, 117, 29);
+		btnAvsluta.setBounds(294, 382, 117, 29);
 		student.add(btnAvsluta);
+
+		JLabel lblsPnr_1 = new JLabel("Pnr:");
+		lblsPnr_1.setBounds(56, 316, 61, 16);
+		student.add(lblsPnr_1);
+
+		textsPnr_1 = new JTextField();
+		textsPnr_1.setBounds(155, 310, 134, 28);
+		student.add(textsPnr_1);
+		textsPnr_1.setColumns(10);
+
+		JLabel lblRegistreraPKurs = new JLabel("Registrera p\u00E5 kurs");
+		lblRegistreraPKurs.setBounds(56, 283, 141, 16);
+		student.add(lblRegistreraPKurs);
 
 		// KURS
 		JPanel course = new JPanel();
@@ -266,21 +282,56 @@ public class GUI {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					textcCode.setText("CourseAdded");
+					textcCode.setText("CourseNotAdded");
 					textcDescription.setText("");
 					textHP.setText("");
 				}
-
 			}
 		});
 		btnAddCourse.setBounds(43, 172, 117, 29);
 		course.add(btnAddCourse);
 
 		JButton btnRemoveCourse = new JButton("Ta bort");
+		btnRemoveCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cCode = textcCode.getText();
+				try {
+					controller.removeCourse(cCode);
+					textcCode.setText("CourseRemoved");
+					textcDescription.setText("");
+					textHP.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textcCode.setText("NoCourseRemoved");
+					textcDescription.setText("");
+					textHP.setText("");
+				}
+
+			}
+		});
 		btnRemoveCourse.setBounds(192, 172, 117, 29);
 		course.add(btnRemoveCourse);
 
 		JButton btnSearchCourse = new JButton("S\u00F6k");
+		btnSearchCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cCode = textcCode.getText();
+				try {
+					Course course = controller.findCourse(cCode);
+					textcDescription.setText(course.getcDescription());
+					int hp = course.getHp();
+					String shp = Integer.toString(hp);
+					textHP.setText(shp);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textcCode.setText("NoCourseFound");
+					textcDescription.setText("");
+					textHP.setText("");
+				}
+			}
+		});
 		btnSearchCourse.setBounds(341, 172, 117, 29);
 		course.add(btnSearchCourse);
 
