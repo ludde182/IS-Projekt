@@ -39,6 +39,11 @@ public class DAL {
 	// Database credentials
 	public static void main(String[] args) {
 
+	private static String connStr = "jdbc:sqlserver://localhost;Databasname=IsProjekt";
+
+	public static Connection getConn() throws SQLException {
+		return DriverManager.getConnection(connStr);
+
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = null;
@@ -161,7 +166,7 @@ public class DAL {
 		stmt.close();
 	}
 
-	/****************************************
+	/*****************************************
 	 * Manage database
 	 *********************************/
 
@@ -213,7 +218,7 @@ public class DAL {
 	}
 	// Deletes a Course from the database.
 
-	public void addStudentToStudies(int sPnr, String cCode) throws SQLException {
+	public void addStudentToStudies(String sPnr, String cCode) throws SQLException {
 		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
 		Connection conn = null;
 		Statement stmt = null;
@@ -250,38 +255,10 @@ public class DAL {
 		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
 				+ cCode + "')) AS GradePercentage" + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
 				+ "' AND sGrade'A'";
-		String gradePercent;
-
 		Connection conn = null;
 		Statement stmt = null;
 		stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery(findPercentageGradeASQL);
-
-		while (rs.next()) {
-			gradePercent = rs.getString(2);
-		}
-		return gradePercent;
-		stmt.close();
-	}
-
-	public ArrayList<Student> findAllStudetsReadingCourse(String cCode) throws SQLException {
-		ArrayList<Student> currentlyReadingList = new ArrayList<Student>();
-
-		String findAllStudentsReadingCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Studies e INNER JOIN Student ON e.sPnr=s.sPnr WHERE e.cCode='"
-				+ cCode + "';";
-
-		Connection conn = null;
-		Statement stmt = null;
-		stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(findAllStudentsReadingCourseSQL);
-
-		while (rs.next()) {
-			student = new Student(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
-			currentlyReadingList.add(student);
-		}
-		return currentlyReadingList;
-		stmt.close();
 	}
 
 	{try
@@ -298,4 +275,4 @@ public class DAL {
 		  System.out.println();
 
 	println(HA det);
-}}
+}}}
