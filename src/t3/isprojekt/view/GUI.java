@@ -63,15 +63,19 @@ public class GUI {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @throws SQLException
 	 */
-	public GUI() {
+	public GUI() throws SQLException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @throws SQLException
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,21 +199,32 @@ public class GUI {
 		btnRemoveCustomer.setBounds(294, 180, 117, 29);
 		student.add(btnRemoveCustomer);
 
-		JComboBox comboBoxGrade = new JComboBox();
-		comboBoxGrade.setBounds(155, 350, 134, 27);
-		student.add(comboBoxGrade);
-
 		JLabel lblCourseStudent = new JLabel("Kurs:");
 		lblCourseStudent.setBounds(56, 354, 61, 16);
 		student.add(lblCourseStudent);
 
 		JButton btnRegistrera = new JButton("Registrera");
+		btnRegistrera.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textsPnr_1.getText();
+				String cCode = comboBox.getSelectedItem().toString();
+				try {
+					controller.addCourseToStudies(pnr, cCode);
+					textsPnr_1.setText("CourseReg");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr_1.setText("NoCourseReg");
+				}
+			}
+		});
 		btnRegistrera.setBounds(42, 382, 117, 29);
 		student.add(btnRegistrera);
 
 		JButton btnAvregistrera = new JButton("Avregistrera");
 		btnAvregistrera.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btnAvregistrera.setBounds(172, 382, 117, 29);
@@ -218,6 +233,18 @@ public class GUI {
 		JButton btnAvsluta = new JButton("Avsluta");
 		btnAvsluta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String pnr = textsPnr_1.getText();
+				String cCode = comboBox.getSelectedItem().toString();
+				try {
+					controller.removeStudentFromStudies(pnr);
+					controller.addCourseToStudies(pnr, cCode);
+					textsPnr_1.setText("CourseReg");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textsPnr_1.setText("NoCourseReg");
+				}
+
 			}
 		});
 		btnAvsluta.setBounds(294, 382, 117, 29);
@@ -235,6 +262,10 @@ public class GUI {
 		JLabel lblRegistreraPKurs = new JLabel("Registrera p\u00E5 kurs");
 		lblRegistreraPKurs.setBounds(56, 283, 141, 16);
 		student.add(lblRegistreraPKurs);
+
+		comboBox = new JComboBox(controller.findAllCourses());
+		comboBox.setBounds(155, 350, 134, 27);
+		student.add(comboBox);
 
 		// KURS
 		JPanel course = new JPanel();

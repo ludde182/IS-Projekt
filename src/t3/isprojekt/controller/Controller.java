@@ -62,7 +62,7 @@ public class Controller {
 		dataAccessLayer.addStudentToStudies(sPnr, cCode);
 	}
 
-	public void removeStudentToStudies(String sPnr) throws SQLException {
+	public void removeStudentFromStudies(String sPnr) throws SQLException {
 		dataAccessLayer.deleteStudentFromStudies(sPnr);
 	}
 
@@ -82,5 +82,9 @@ public class Controller {
 			throws SQLException {
 		String percent = dataAccessLayer.findPercentageGradeA(cCode, sGrade);
 		return percent;
+	}
+
+	public String[] findAllCourses() throws SQLException {
+		return dataAccessLayer.findAllCourses();
 	}
 }
