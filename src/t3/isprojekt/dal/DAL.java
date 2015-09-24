@@ -58,7 +58,7 @@ public class DAL {
 			// close resources
 			Connection conn = null;
 			Statement stmt = null;
-			stmt = conn.prepareStatement(null);
+			stmt = conn.createStatement();
 			try {
 				if (stmt != null)
 					stmt.close();
@@ -283,13 +283,13 @@ public class DAL {
 	}
 
 	// Adds a Course to Studied.
-	public boolean addCourseToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
-		String addCourseToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
+	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
+		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
 		Connection conn = null;
 		Statement stmt = null;
 		stmt = conn.createStatement();
 
-		stmt.executeUpdate(addCourseToStudiedSQL);
+		stmt.executeUpdate(addStudentToStudiedSQL);
 		stmt.close();
 	}
 
@@ -306,7 +306,7 @@ public class DAL {
 	}
 	// Deletes Student from Studies.
 
-	// Handles exceptions from the SQLmethods
+	// Handles exceptions from the SQLmethods.
 	}catch(
 
 	SQLException se3)
