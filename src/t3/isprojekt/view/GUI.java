@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -32,10 +33,10 @@ public class GUI {
 
 	private JScrollPane spStudentDetails;
 	private JScrollPane spStudent;
-	private JTable tblOrder;
-	private DefaultTableModel dtmOrder;
-	private JTable tblOrderLine;
-	private DefaultTableModel dtmOrderLine;
+	private JTable tblStudent;
+	private DefaultTableModel dtmStudent;
+	private JTable tblStudentSpec;
+	private DefaultTableModel dtmStudentSpec;
 	private JTextField textcCode;
 	private JTextField textcDescription;
 	private JTextField textHP;
@@ -44,6 +45,7 @@ public class GUI {
 	private Controller controller;
 	private Course course;
 	private JTextField textsPnr_1;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -154,15 +156,22 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
 				Student student;
-				try { // WHAT
+				try {
 					student = controller.findStudent(pnr);
-					textsName.setText(student.getsName());
-					textsAdress.setText(student.getsAdress());
-					textsTele.setText(student.getsTfn());
+					if (student == null) {
+						textsPnr.setText("NoStudentFound");
+						textsName.setText("");
+						textsAdress.setText("");
+						textsTele.setText("");
+					} else {
+						textsName.setText(student.getsName());
+						textsAdress.setText(student.getsAdress());
+						textsTele.setText(student.getsTfn());
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					textsPnr.setText("NoStudentFound");
+					textsPnr.setText("NoConnection");
 					textsName.setText("");
 					textsAdress.setText("");
 					textsTele.setText("");
@@ -223,7 +232,7 @@ public class GUI {
 				try {
 					controller.removeStudentFromStudies(textsPnr.getText(),
 							comboBox.getSelectedItem().toString());
-					textsPnr.setText("Removed");
+					textsPnr.setText("CourseRemoved");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -403,26 +412,47 @@ public class GUI {
 
 		String[] orderLine = new String[] { "Product name:", "Amount:",
 				"Price:" };
-		dtmOrderLine = new DefaultTableModel();
-		dtmOrderLine.setColumnIdentifiers(orderLine);
-		tblOrderLine = new JTable(dtmOrderLine);
-		spStudentDetails = new JScrollPane(tblOrderLine);
-		spStudentDetails.setBounds(277, 167, 267, 258);
+		dtmStudentSpec = new DefaultTableModel();
+		dtmStudentSpec.setColumnIdentifiers(orderLine);
+		tblStudentSpec = new JTable(dtmStudentSpec);
+		spStudentDetails = new JScrollPane(tblStudentSpec);
+		spStudentDetails.setBounds(276, 232, 267, 258);
 		register.add(spStudentDetails);
 
 		String[] order = new String[] { "Order number:", "Price:" };
-		dtmOrder = new DefaultTableModel();
-		dtmOrder.setColumnIdentifiers(order);
-		tblOrder = new JTable(dtmOrder);
-		spStudent = new JScrollPane(tblOrder);
-		spStudent.setBounds(38, 167, 227, 258);
+		dtmStudent = new DefaultTableModel();
+		dtmStudent.setColumnIdentifiers(order);
+		tblStudent = new JTable(dtmStudent);
+		spStudent = new JScrollPane(tblStudent);
+		spStudent.setBounds(38, 232, 227, 258);
 		register.add(spStudent);
+
+		JButton btnSearchRegister = new JButton("S\u00F6k");
+		btnSearchRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dtmStudent.setRowCount(0);
+				String pnr = textPnrRegister.getText();
+				// Student s = controller.findStudent(pnr);
+				// for (Course c : controller.findStudentResult(pnr, cCode)) {
+				// int sum = 0;
+				// for (OrderLine ol : o.getOrderLineList()) {
+				// sum += ol.getProduct().getPrice() * ol.getAmount();
+				// }
+
+				// Object[] objectList = new Object[] { o.getNumber(), sum };
+				// dtmOrder.addRow(objectList);
+				// }
+
+			}
+		});
+		btnSearchRegister.setBounds(38, 173, 117, 29);
+		register.add(btnSearchRegister);
 
 		JButton btnShowDetails = new JButton("Show Details");
 		btnShowDetails.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dtmOrderLine.setRowCount(0);
-				int i = tblOrder.getSelectedRow();
+				dtmStudentSpec.setRowCount(0);
+				int i = tblStudent.getSelectedRow();
 				// String oNbr = dtmOrder.getValueAt(i, 0).toString();
 				// String cNbr = textCNumber.getText();
 				// Customer c = controller.searchCustomer(cNbr);
@@ -435,7 +465,7 @@ public class GUI {
 				// }
 			}
 		});
-		btnShowDetails.setBounds(38, 437, 117, 29);
+		btnShowDetails.setBounds(38, 502, 117, 29);
 		register.add(btnShowDetails);
 
 		JLabel lblKursnr = new JLabel("Kursnr:");
@@ -456,25 +486,35 @@ public class GUI {
 		register.add(textPnrRegister);
 		textPnrRegister.setColumns(10);
 
-		JButton btnSearchRegister = new JButton("S\u00F6k");
-		btnSearchRegister.setBounds(38, 116, 117, 29);
-		register.add(btnSearchRegister);
-
 		JLabel lblGradeRegister = new JLabel("Betyg:");
-		lblGradeRegister.setBounds(277, 75, 61, 16);
+		lblGradeRegister.setBounds(38, 110, 61, 16);
 		register.add(lblGradeRegister);
 
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(356, 71, 117, 27);
+		JComboBox comboBox_2 = new JComboBox(aList);
+		comboBox_2.setBounds(111, 109, 117, 27);
 		register.add(comboBox_2);
 
 		JRadioButton rdbtnLst = new JRadioButton("L\u00E4st");
-		rdbtnLst.setBounds(307, 35, 141, 23);
+		buttonGroup.add(rdbtnLst);
+		rdbtnLst.setBounds(38, 138, 83, 23);
 		register.add(rdbtnLst);
 
 		JRadioButton rdbtnLser = new JRadioButton("L\u00E4ser");
-		rdbtnLser.setBounds(403, 35, 141, 23);
+		buttonGroup.add(rdbtnLser);
+		rdbtnLser.setBounds(121, 138, 141, 23);
 		register.add(rdbtnLser);
+
+		JButton btnAllsStudents = new JButton("Alla studenter");
+		btnAllsStudents.setBounds(356, 34, 117, 29);
+		register.add(btnAllsStudents);
+
+		JButton btnAllaKurser = new JButton("Alla kurser");
+		btnAllaKurser.setBounds(356, 70, 117, 29);
+		register.add(btnAllaKurser);
+
+		JLabel lblVisa = new JLabel("Visa:");
+		lblVisa.setBounds(276, 39, 61, 16);
+		register.add(lblVisa);
 
 	}
 }
