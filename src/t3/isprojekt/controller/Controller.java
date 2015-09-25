@@ -62,8 +62,9 @@ public class Controller {
 		dataAccessLayer.addStudentToStudies(sPnr, cCode);
 	}
 
-	public void removeStudentFromStudies(String sPnr) throws SQLException {
-		dataAccessLayer.deleteStudentFromStudies(sPnr);
+	public void removeStudentFromStudies(String sPnr, String cCode)
+			throws SQLException {
+		dataAccessLayer.deleteStudentFromStudies(sPnr, cCode);
 	}
 
 	public ArrayList<Student> findResultOnCourse(String cCode)
