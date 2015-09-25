@@ -27,8 +27,6 @@ public class DAL {
 	// private String cCode;
 	private String cDescription;
 	private int hp;
-	// private String sGrade;
-	// JDBC driver name and database URL
 
 	// Database credentials
 
@@ -38,9 +36,9 @@ public class DAL {
 		return DriverManager.getConnection(connStr);
 	}
 
-	/***************************************
-	 * Search methods
-	 **************************************/
+	// ************************************* Search
+	// methods*****************************************
+
 	// Finds a student with a sPnr input.
 	public Student findStudent(String sPnr) {
 		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr + "'";
@@ -275,9 +273,8 @@ public class DAL {
 		return currentlyReadingList;
 	}
 
-	/*****************************************
-	 * Manage database
-	 *********************************/
+	// ************************************* Manage
+	// database*****************************************
 	// Adds a Student to the database.
 	public boolean addStudent(String sPnr, String sName, String sAdress, String sTfn) throws SQLException {
 		String addStudentSQL = "INSERT INTO Student " + "values('" + sPnr + "', '" + sName + "', '" + sAdress + "', "

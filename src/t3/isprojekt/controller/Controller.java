@@ -23,14 +23,12 @@ public class Controller {
 		dataAccessLayer = new DAL();
 	}
 
-	public void addStudent(String pnr, String name, String adress, String tel)
-			throws SQLException {
+	public void addStudent(String pnr, String name, String adress, String tel) throws SQLException {
 		dataAccessLayer.addStudent(pnr, name, adress, tel);
 
 	}
 
-	public void addCourse(String cCode, String cDescription, int hp)
-			throws SQLException {
+	public void addCourse(String cCode, String cDescription, int hp) throws SQLException {
 		dataAccessLayer.addCourse(cCode, cDescription, hp);
 	}
 
@@ -52,35 +50,29 @@ public class Controller {
 		dataAccessLayer.deleteStudent(pnr);
 	}
 
-	public void addCourseToStudied(String cCode, String sPnr, String sGrade)
-			throws SQLException {
-		dataAccessLayer.addCourseToStudied(cCode, sPnr, sGrade);
+	public void addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
+		dataAccessLayer.addStudentToStudied(cCode, sPnr, sGrade);
 	}
 
-	public void addCourseToStudies(String sPnr, String cCode)
-			throws SQLException {
+	public void addCourseToStudies(String sPnr, String cCode) throws SQLException {
 		dataAccessLayer.addStudentToStudies(sPnr, cCode);
 	}
 
-	public void removeStudentFromStudies(String sPnr, String cCode)
-			throws SQLException {
+	public void removeStudentFromStudies(String sPnr, String cCode) throws SQLException {
 		dataAccessLayer.deleteStudentFromStudies(sPnr, cCode);
 	}
 
-	public ArrayList<Student> findResultOnCourse(String cCode)
-			throws SQLException {
+	public ArrayList<Student> findResultOnCourse(String cCode) throws SQLException {
 		studentList = dataAccessLayer.findResultOnCourse(cCode);
 		return studentList;
 	}
 
-	public ArrayList<Studied> findStudentResult(String pnr, String cCode)
-			throws SQLException {
+	public ArrayList<Studied> findStudentResult(String pnr, String cCode) throws SQLException {
 		studiedList = dataAccessLayer.findStudentResult(cCode, pnr);
 		return studiedList;
 	}
 
-	public String findPrecentageGrade(String cCode, String sGrade)
-			throws SQLException {
+	public String findPrecentageGrade(String cCode, String sGrade) throws SQLException {
 		String percent = dataAccessLayer.findPercentageGradeA(cCode, sGrade);
 		return percent;
 	}

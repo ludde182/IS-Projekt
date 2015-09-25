@@ -50,6 +50,7 @@ public class GUI {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					GUI window = new GUI();
@@ -64,6 +65,7 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
+
 	public GUI() {
 		initialize();
 	}
@@ -78,8 +80,13 @@ public class GUI {
 		frame.getContentPane().setLayout(null);
 
 		// TABBS
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(18, 17, 789, 464);
+		tabbedPane.setBounds(18, 17, 789, 449);
+
+		// JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		tabbedPane.setBounds(18, 17, 789, 406);
+
 		frame.getContentPane().add(tabbedPane);
 
 		// STUDENT
@@ -128,6 +135,7 @@ public class GUI {
 
 		JButton btnsSearch = new JButton("Search student");
 		btnsSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
 				try {
