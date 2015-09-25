@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import t3.isprojekt.controller.Controller;
@@ -35,6 +36,7 @@ public class GUI {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					GUI window = new GUI();
@@ -49,6 +51,7 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
+
 	public GUI() {
 		initialize();
 	}
@@ -63,7 +66,7 @@ public class GUI {
 		frame.getContentPane().setLayout(null);
 
 		// TABBS
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		tabbedPane.setBounds(18, 17, 789, 406);
 		frame.getContentPane().add(tabbedPane);
 
@@ -110,6 +113,7 @@ public class GUI {
 
 		JButton btnsSearch = new JButton("Search");
 		btnsSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
 				try {
