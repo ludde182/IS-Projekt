@@ -243,7 +243,7 @@ public class DAL {
 	}
 
 	// Finds all Students reading a specific course.
-	public ArrayList<Student> findAllStudetsReadingCourse(String cCode) throws SQLException {
+	public ArrayList<Student> findAllStudentsReadingCourse(String cCode) throws SQLException {
 		String findAllStudentsReadingCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Studies e INNER JOIN Student ON e.sPnr=s.sPnr WHERE e.cCode='"
 				+ cCode + "';";
 
