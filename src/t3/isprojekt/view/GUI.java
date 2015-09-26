@@ -69,6 +69,7 @@ public class GUI {
 
 	public GUI() {
 		initialize();
+		this.controller = new Controller();
 	}
 
 	/**
@@ -136,7 +137,6 @@ public class GUI {
 
 		JButton btnsSearch = new JButton("Search student");
 		btnsSearch.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
 				try {
@@ -171,6 +171,12 @@ public class GUI {
 		student.add(table);
 
 		JButton btnsStuding = new JButton("Studing");
+		btnsStuding.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textsPnr.getText();
+
+			}
+		});
 		btnsStuding.setBounds(378, 256, 117, 29);
 		student.add(btnsStuding);
 
@@ -215,7 +221,7 @@ public class GUI {
 		textHP.setColumns(10);
 		// Table
 		JScrollPane scrollPaneC = new JScrollPane();
-		scrollPaneC.setBounds(288, 19, 339, 206);
+		scrollPaneC.setBounds(288, 19, 441, 206);
 		course.add(scrollPaneC);
 
 		JTable table_C = new JTable();
@@ -247,20 +253,37 @@ public class GUI {
 
 			}
 		});
-		btnSearchCourse.setBounds(288, 237, 117, 29);
+		btnSearchCourse.setBounds(280, 237, 117, 29);
 		course.add(btnSearchCourse);
 
-		JButton btnStudentsOnCourse = new JButton("Students");
+		JButton btnStudentsOnCourse = new JButton("Studied");
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String code = textCourseCode.getText();
+				try {
+					controller.findResultOnCourse(code);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 		});
-		btnStudentsOnCourse.setBounds(405, 237, 111, 29);
+		btnStudentsOnCourse.setBounds(392, 237, 111, 29);
 		course.add(btnStudentsOnCourse);
 
 		JButton btnGrades = new JButton("Grades");
-		btnGrades.setBounds(517, 237, 117, 29);
+		btnGrades.setBounds(606, 237, 117, 29);
 		course.add(btnGrades);
+
+		JButton btnStudied_1 = new JButton("Studies");
+		btnStudied_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		btnStudied_1.setBounds(497, 237, 117, 29);
+		course.add(btnStudied_1);
 
 		// REGISTER
 		JPanel register = new JPanel();

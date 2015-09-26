@@ -1,4 +1,3 @@
-
 package t3.isprojekt.dal;
 
 import java.sql.Connection;
@@ -41,7 +40,8 @@ public class DAL {
 
 	// Finds a student with a sPnr input.
 	public Student findStudent(String sPnr) {
-		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr + "'";
+		String findStudentSQL = "SELECT * FROM Student WHERE sPnr= '" + sPnr
+				+ "'";
 		Statement stmt = null;
 
 		try {
@@ -87,7 +87,8 @@ public class DAL {
 			stmt = getConn().createStatement();
 			ResultSet rset = stmt.executeQuery(findAllCoursesSQL);
 			while (rset.next()) {
-				course = new Course(rset.getString(1), rset.getString(2), rset.getInt(3));
+				course = new Course(rset.getString(1), rset.getString(2),
+						rset.getInt(3));
 				courseList.add(course);
 			}
 			int i = 0;
@@ -145,11 +146,12 @@ public class DAL {
 		return course;
 	}
 
-	// Finds a Students result on a specific Course with a cCode input.
-	public ArrayList<Student> findResultOnCourse(String cCode) throws SQLException {
-		String findResultOnCourseSQL = "SELECT c.cCode, sPnr, sGrade FROM Student sa JOIN Studied s ON s.sPnr=sa.sPnr WHERE c.cCode = '"
+	// Finds all Students result on a specific Course with a cCode input.
+	public ArrayList<Studied> findResultOnCourse(String cCode)
+			throws SQLException {
+		String findResultOnCourseSQL = "SELECT s.cCode, sa.sPnr, sGrade FROM Student sa JOIN Studied s ON s.sPnr=sa.sPnr WHERE c.cCode = '"
 				+ cCode + "'";
-		ArrayList<Student> resultList = new ArrayList<Student>();
+		ArrayList<Studied> studiedList = new ArrayList<Studied>();
 		Statement stmt = null;
 
 		try {
@@ -157,8 +159,9 @@ public class DAL {
 			ResultSet rset = stmt.executeQuery(findResultOnCourseSQL);
 
 			while (rset.next()) {
-				student = new Student(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4));
-				resultList.add(student);
+				Studied stud = new Studied(rset.getString(1),
+						rset.getString(2), rset.getString(3));
+				studiedList.add(stud);
 			}
 
 			rset.close();
@@ -172,13 +175,14 @@ public class DAL {
 				stmt.close();
 			}
 		}
-		return resultList;
+		return studiedList;
 	}
 
 	// Finds a specific Students result.
-	public ArrayList<Studied> findStudentResult(String cCode, String sPnr) throws SQLException {
-		String findStudentResultSQL = "SELECT s.sPnr, cCode, sGrade FROM Studied WHERE sPnr='" + sPnr + "'and cCode='"
-				+ cCode + "'";
+	public ArrayList<Studied> findStudentResult(String cCode, String sPnr)
+			throws SQLException {
+		String findStudentResultSQL = "SELECT s.sPnr, cCode, sGrade FROM Studied WHERE sPnr='"
+				+ sPnr + "'and cCode='" + cCode + "'";
 		ArrayList<Studied> studiedList = new ArrayList<Studied>();
 		Statement stmt = null;
 
@@ -189,7 +193,8 @@ public class DAL {
 
 			while (rset.next()) {
 				if (rset.getString(2) != null) {
-					studied = new Studied(rset.getString(1), rset.getString(2), rset.getString(3));
+					studied = new Studied(rset.getString(1), rset.getString(2),
+							rset.getString(3));
 					studiedList.add(studied);
 				}
 			}
@@ -210,9 +215,13 @@ public class DAL {
 
 	// Calculates how many percent of the Students got an A on a specific
 	// Course.
-	public String findPercentageGradeA(String cCode, String sGrade) throws SQLException {
+	public String findPercentageGradeA(String cCode, String sGrade)
+			throws SQLException {
 		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
-				+ cCode + "')) AS GradePercentage" + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
+				+ cCode
+				+ "')) AS GradePercentage"
+				+ "FROM Studied GROUP BY cCode, sGrade HAVING cCode='"
+				+ cCode
 				+ "' AND sGrade'A'";
 
 		Statement stmt = null;
@@ -243,7 +252,8 @@ public class DAL {
 	}
 
 	// Finds all Students reading a specific course.
-	public ArrayList<Student> findAllStudentsReadingCourse(String cCode) throws SQLException {
+	public ArrayList<Student> findAllStudentsReadingCourse(String cCode)
+			throws SQLException {
 		String findAllStudentsReadingCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Studies e INNER JOIN Student ON e.sPnr=s.sPnr WHERE e.cCode='"
 				+ cCode + "';";
 
@@ -256,7 +266,8 @@ public class DAL {
 			ResultSet rs = stmt.executeQuery(findAllStudentsReadingCourseSQL);
 
 			while (rs.next()) {
-				student = new Student(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				student = new Student(rs.getString(1), rs.getString(2),
+						rs.getString(3), rs.getString(4));
 				currentlyReadingList.add(student);
 			}
 			rs.close();
@@ -276,9 +287,10 @@ public class DAL {
 	// ************************************* Manage
 	// database*****************************************
 	// Adds a Student to the database.
-	public boolean addStudent(String sPnr, String sName, String sAdress, String sTfn) throws SQLException {
-		String addStudentSQL = "INSERT INTO Student " + "values('" + sPnr + "', '" + sName + "', '" + sAdress + "', "
-				+ sTfn + ")";
+	public boolean addStudent(String sPnr, String sName, String sAdress,
+			String sTfn) throws SQLException {
+		String addStudentSQL = "INSERT INTO Student " + "values('" + sPnr
+				+ "', '" + sName + "', '" + sAdress + "', " + sTfn + ")";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
@@ -301,8 +313,10 @@ public class DAL {
 	}
 
 	// Adds a Course to the database.
-	public boolean addCourse(String cCode, String cDescription, int hp) throws SQLException {
-		String addCourseSQL = "INSERT INTO Course " + "values('" + cCode + "', '" + cDescription + "', '" + hp + "')";
+	public boolean addCourse(String cCode, String cDescription, int hp)
+			throws SQLException {
+		String addCourseSQL = "INSERT INTO Course " + "values('" + cCode
+				+ "', '" + cDescription + "', '" + hp + "')";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
@@ -328,7 +342,8 @@ public class DAL {
 
 	// Deletes a Student from the database.
 	public boolean deleteStudent(String sPnr) throws SQLException {
-		String deleteStudentSQL = "DELETE FROM Student WHERE sPnr='" + sPnr + "'";
+		String deleteStudentSQL = "DELETE FROM Student WHERE sPnr='" + sPnr
+				+ "'";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
@@ -354,7 +369,8 @@ public class DAL {
 
 	// Deletes a Course from the database.
 	public boolean deleteCourse(String cCode) throws SQLException {
-		String deleteCourseSQL = "DELETE FROM Course WHERE cCode='" + cCode + "'";
+		String deleteCourseSQL = "DELETE FROM Course WHERE cCode='" + cCode
+				+ "'";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
@@ -381,8 +397,10 @@ public class DAL {
 	}
 
 	// Adds a Student to studies.
-	public boolean addStudentToStudies(String sPnr, String cCode) throws SQLException {
-		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
+	public boolean addStudentToStudies(String sPnr, String cCode)
+			throws SQLException {
+		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values("
+				+ sPnr + ", " + cCode + ")";
 		Statement stmt = null;
 		boolean updateStatus = false;
 
@@ -408,8 +426,10 @@ public class DAL {
 	}
 
 	// Adds a Course to Studied.
-	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
-		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
+	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade)
+			throws SQLException {
+		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values("
+				+ cCode + ", " + sPnr + ", " + sGrade + ")";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
@@ -434,9 +454,10 @@ public class DAL {
 	}
 
 	// Adds a Course
-	public boolean deleteStudentFromStudies(String sPnr, String cCode) throws SQLException {
-		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr='" + sPnr + "' AND cCode='" + cCode
-				+ "';";
+	public boolean deleteStudentFromStudies(String sPnr, String cCode)
+			throws SQLException {
+		String deleteStudentFromStudiesSQL = "DELETE Student FROM Studies WHERE sPnr='"
+				+ sPnr + "' AND cCode='" + cCode + "';";
 
 		Statement stmt = null;
 		boolean updateStatus;
