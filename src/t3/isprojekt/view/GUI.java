@@ -44,6 +44,7 @@ public class GUI {
 	private JTextField textrHP;
 	private JTextField textrrPnr;
 	private JTextField textrCcode;
+	private JTextField textrrrPnr;
 
 	/**
 	 * Launch the application.
@@ -75,14 +76,14 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 831, 520);
+		frame.setBounds(100, 100, 831, 464);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		// TABBS
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(18, 17, 789, 449);
+		tabbedPane.setBounds(18, 17, 789, 434);
 
 		// JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		tabbedPane.setBounds(18, 17, 789, 406);
@@ -387,6 +388,27 @@ public class GUI {
 		lblAddStudentTo.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		lblAddStudentTo.setBounds(286, 226, 165, 16);
 		register.add(lblAddStudentTo);
+
+		JLabel lblPnr = new JLabel("Pnr:");
+		lblPnr.setBounds(265, 254, 61, 16);
+		register.add(lblPnr);
+
+		textrrrPnr = new JTextField();
+		textrrrPnr.setBounds(317, 248, 134, 28);
+		register.add(textrrrPnr);
+		textrrrPnr.setColumns(10);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(317, 287, 134, 27);
+		register.add(comboBox);
+
+		JLabel lblKurs = new JLabel("Kurs:");
+		lblKurs.setBounds(265, 291, 61, 16);
+		register.add(lblKurs);
+
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setBounds(317, 319, 117, 29);
+		register.add(btnAdd);
 
 	}
 }
