@@ -5,5 +5,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/siriaallflood/Desktop/mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Erik/Desktop/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ludde/Downloads/sqljdbc_4.2/enu/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
