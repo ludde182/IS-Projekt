@@ -67,17 +67,21 @@ public class GUI {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @throws SQLException
 	 */
 
-	public GUI() {
+	public GUI() throws SQLException {
 		initialize();
 		this.controller = new Controller();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @throws SQLException
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 831, 551);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -499,7 +503,7 @@ public class GUI {
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
-		final JComboBox comboBox = new JComboBox();
+		final JComboBox comboBox = new JComboBox(controller.findAllCourses());
 		comboBox.setBounds(553, 109, 134, 27);
 		register.add(comboBox);
 
