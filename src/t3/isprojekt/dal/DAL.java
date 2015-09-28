@@ -362,7 +362,7 @@ public class DAL {
 
 	// Adds a Student to studies.
 	public boolean addStudentToStudies(String sPnr, String cCode) throws SQLException {
-		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values(" + sPnr + ", " + cCode + ")";
+		String addStudentToStudiesSQL = "INSERT INTO Studies " + "values('" + sPnr + "', '" + cCode + "')";
 		Statement stmt = null;
 		boolean updateStatus = false;
 
@@ -387,7 +387,8 @@ public class DAL {
 
 	// Adds a Course to Studied.
 	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
-		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values(" + cCode + ", " + sPnr + ", " + sGrade + ")";
+		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values('" + cCode + "', '" + sPnr + "', " + sGrade
+				+ "')";
 
 		Statement stmt = null;
 		boolean updateStatus = false;
