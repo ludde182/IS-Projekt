@@ -79,17 +79,14 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 831, 464);
+		frame.setBounds(100, 100, 831, 551);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		// TABBS
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(18, 17, 789, 458);
-
-		// JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		tabbedPane.setBounds(18, 17, 789, 406);
+		tabbedPane.setBounds(18, 17, 789, 491);
 
 		frame.getContentPane().add(tabbedPane);
 
@@ -364,36 +361,36 @@ public class GUI {
 		register.add(textrHP);
 		textrHP.setColumns(10);
 
-		JLabel lblRegisterOnCourse = new JLabel("Finish course:");
+		JLabel lblRegisterOnCourse = new JLabel("Finish course");
 		lblRegisterOnCourse
 				.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblRegisterOnCourse.setBounds(503, 38, 134, 16);
+		lblRegisterOnCourse.setBounds(501, 260, 134, 16);
 		register.add(lblRegisterOnCourse);
 
 		JLabel lblrrPnr = new JLabel("Pnr:");
-		lblrrPnr.setBounds(486, 72, 61, 16);
+		lblrrPnr.setBounds(486, 288, 61, 16);
 		register.add(lblrrPnr);
 
 		textrrPnr = new JTextField();
-		textrrPnr.setBounds(553, 66, 134, 28);
+		textrrPnr.setBounds(553, 282, 134, 28);
 		register.add(textrrPnr);
 		textrrPnr.setColumns(10);
 
 		JLabel lblCode = new JLabel("Code:");
-		lblCode.setBounds(486, 113, 61, 16);
+		lblCode.setBounds(486, 327, 61, 16);
 		register.add(lblCode);
 
 		textrCcode = new JTextField();
-		textrCcode.setBounds(553, 107, 134, 28);
+		textrCcode.setBounds(553, 321, 134, 28);
 		register.add(textrCcode);
 		textrCcode.setColumns(10);
 
 		JLabel lblcrGrade = new JLabel("Grade:");
-		lblcrGrade.setBounds(486, 155, 61, 16);
+		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
 		final JComboBox comboBoxGrade = new JComboBox();
-		comboBoxGrade.setBounds(553, 151, 134, 27);
+		comboBoxGrade.setBounds(553, 365, 134, 27);
 		register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
@@ -485,29 +482,29 @@ public class GUI {
 				}
 			}
 		});
-		btnFinish.setBounds(570, 182, 117, 29);
+		btnFinish.setBounds(570, 404, 117, 29);
 		register.add(btnFinish);
 
 		JLabel lblAddStudentTo = new JLabel("Add student to course");
 		lblAddStudentTo.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblAddStudentTo.setBounds(503, 226, 165, 16);
+		lblAddStudentTo.setBounds(501, 38, 165, 16);
 		register.add(lblAddStudentTo);
 
 		JLabel lblPnr = new JLabel("Pnr:");
-		lblPnr.setBounds(486, 254, 61, 16);
+		lblPnr.setBounds(486, 72, 61, 16);
 		register.add(lblPnr);
 
 		textrrrPnr = new JTextField();
-		textrrrPnr.setBounds(553, 248, 134, 28);
+		textrrrPnr.setBounds(553, 66, 134, 28);
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
 		final JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(553, 288, 134, 27);
+		comboBox.setBounds(553, 109, 134, 27);
 		register.add(comboBox);
 
 		JLabel lblKurs = new JLabel("Kurs:");
-		lblKurs.setBounds(486, 292, 61, 16);
+		lblKurs.setBounds(486, 113, 61, 16);
 		register.add(lblKurs);
 
 		JButton btnAdd = new JButton("Add");
@@ -530,20 +527,20 @@ public class GUI {
 				}
 			}
 		});
-		btnAdd.setBounds(570, 325, 117, 29);
+		btnAdd.setBounds(570, 150, 117, 29);
 		register.add(btnAdd);
 
 		JLabel lblRemoveStudent = new JLabel("Remove student");
 		lblRemoveStudent.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblRemoveStudent.setBounds(27, 254, 117, 16);
+		lblRemoveStudent.setBounds(27, 260, 117, 16);
 		register.add(lblRemoveStudent);
 
 		JLabel lblPnr_1 = new JLabel("Pnr:");
-		lblPnr_1.setBounds(16, 278, 61, 16);
+		lblPnr_1.setBounds(16, 288, 61, 16);
 		register.add(lblPnr_1);
 
 		textRemovePnr = new JTextField();
-		textRemovePnr.setBounds(89, 272, 134, 28);
+		textRemovePnr.setBounds(89, 282, 134, 28);
 		register.add(textRemovePnr);
 		textRemovePnr.setColumns(10);
 
@@ -565,20 +562,20 @@ public class GUI {
 				}
 			}
 		});
-		btnRemove.setBounds(106, 312, 117, 29);
+		btnRemove.setBounds(106, 322, 117, 29);
 		register.add(btnRemove);
 
 		JLabel lblRemoveCourse = new JLabel("Remove course");
 		lblRemoveCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblRemoveCourse.setBounds(286, 226, 165, 16);
+		lblRemoveCourse.setBounds(286, 260, 165, 16);
 		register.add(lblRemoveCourse);
 
 		JLabel lblCode_1 = new JLabel("Code:");
-		lblCode_1.setBounds(265, 254, 61, 16);
+		lblCode_1.setBounds(265, 288, 61, 16);
 		register.add(lblCode_1);
 
 		textRemoveCode = new JTextField();
-		textRemoveCode.setBounds(317, 248, 134, 28);
+		textRemoveCode.setBounds(317, 282, 134, 28);
 		register.add(textRemoveCode);
 		textRemoveCode.setColumns(10);
 
@@ -600,7 +597,7 @@ public class GUI {
 				}
 			}
 		});
-		btnRemove_1.setBounds(334, 287, 117, 29);
+		btnRemove_1.setBounds(334, 322, 117, 29);
 		register.add(btnRemove_1);
 
 	}
