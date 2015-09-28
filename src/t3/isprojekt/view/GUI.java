@@ -45,6 +45,8 @@ public class GUI {
 	private JTextField textrrPnr;
 	private JTextField textrCcode;
 	private JTextField textrrrPnr;
+	private JTextField textRemovePnr;
+	private JTextField textRemoveCode;
 
 	/**
 	 * Launch the application.
@@ -84,7 +86,7 @@ public class GUI {
 		// TABBS
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(18, 17, 789, 434);
+		tabbedPane.setBounds(18, 17, 789, 458);
 
 		// JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		tabbedPane.setBounds(18, 17, 789, 406);
@@ -163,10 +165,10 @@ public class GUI {
 		scrollPane.setBounds(263, 38, 339, 206);
 		student.add(scrollPane);
 
-		table_1 = new JTable();
-		scrollPane.setViewportView(table_1);
+		Object row[][] = { { "1", "2", "3" }, { "4", "5", "6" } };
+		Object column[] = { "hej", "san", "hop" };
 
-		table = new JTable();
+		table = new JTable(row, column);
 		table.setBounds(75, 154, 1, 1);
 		student.add(table);
 
@@ -174,7 +176,6 @@ public class GUI {
 		btnsStuding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textsPnr.getText();
-
 			}
 		});
 		btnsStuding.setBounds(378, 256, 117, 29);
@@ -396,10 +397,53 @@ public class GUI {
 		register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
+		btnAddStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textrAddPnr.getText();
+				String name = textrAddName.getText();
+				String adress = textrAdress.getText();
+				String tel = textTelnr.getText();
+				try {
+					controller.addStudent(pnr, name, adress, tel);
+					textrAddPnr.setText("Added");
+					textrAddName.setText("");
+					textrAdress.setText("");
+					textTelnr.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					textrAddPnr.setText("NoConnection");
+					textrAddName.setText("");
+					textrAdress.setText("");
+					textTelnr.setText("");
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnAddStudent.setBounds(106, 221, 117, 29);
 		register.add(btnAddStudent);
 
 		JButton btnAddCourse = new JButton("Add");
+		btnAddCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String code = textrCode.getText();
+				String name = textrNAme.getText();
+				int HP = Integer.parseInt(textrHP.getText());
+				try {
+					controller.addCourse(code, name, HP);
+					textrCode.setText("Added");
+					textrNAme.setText("");
+					textrHP.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					textrCode.setText("NoConnection");
+					textrNAme.setText("");
+					textrHP.setText("");
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnAddCourse.setBounds(334, 182, 117, 29);
 		register.add(btnAddCourse);
 
@@ -409,29 +453,65 @@ public class GUI {
 
 		JLabel lblAddStudentTo = new JLabel("Add student to course");
 		lblAddStudentTo.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblAddStudentTo.setBounds(286, 226, 165, 16);
+		lblAddStudentTo.setBounds(503, 226, 165, 16);
 		register.add(lblAddStudentTo);
 
 		JLabel lblPnr = new JLabel("Pnr:");
-		lblPnr.setBounds(265, 254, 61, 16);
+		lblPnr.setBounds(486, 254, 61, 16);
 		register.add(lblPnr);
 
 		textrrrPnr = new JTextField();
-		textrrrPnr.setBounds(317, 248, 134, 28);
+		textrrrPnr.setBounds(553, 248, 134, 28);
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(317, 287, 134, 27);
+		comboBox.setBounds(553, 288, 134, 27);
 		register.add(comboBox);
 
 		JLabel lblKurs = new JLabel("Kurs:");
-		lblKurs.setBounds(265, 291, 61, 16);
+		lblKurs.setBounds(486, 292, 61, 16);
 		register.add(lblKurs);
 
 		JButton btnAdd = new JButton("Add");
-		btnAdd.setBounds(317, 319, 117, 29);
+		btnAdd.setBounds(570, 325, 117, 29);
 		register.add(btnAdd);
+
+		JLabel lblRemoveStudent = new JLabel("Remove student");
+		lblRemoveStudent.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblRemoveStudent.setBounds(27, 254, 117, 16);
+		register.add(lblRemoveStudent);
+
+		JLabel lblPnr_1 = new JLabel("Pnr:");
+		lblPnr_1.setBounds(16, 278, 61, 16);
+		register.add(lblPnr_1);
+
+		textRemovePnr = new JTextField();
+		textRemovePnr.setBounds(89, 272, 134, 28);
+		register.add(textRemovePnr);
+		textRemovePnr.setColumns(10);
+
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.setBounds(106, 312, 117, 29);
+		register.add(btnRemove);
+
+		JLabel lblRemoveCourse = new JLabel("Remove course");
+		lblRemoveCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblRemoveCourse.setBounds(286, 226, 165, 16);
+		register.add(lblRemoveCourse);
+
+		JLabel lblCode_1 = new JLabel("Code:");
+		lblCode_1.setBounds(265, 254, 61, 16);
+		register.add(lblCode_1);
+
+		textRemoveCode = new JTextField();
+		textRemoveCode.setBounds(317, 248, 134, 28);
+		register.add(textRemoveCode);
+		textRemoveCode.setColumns(10);
+
+		JButton btnRemove_1 = new JButton("Remove");
+		btnRemove_1.setBounds(334, 287, 117, 29);
+		register.add(btnRemove_1);
 
 	}
 }
