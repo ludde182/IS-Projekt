@@ -393,7 +393,14 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		JComboBox<String> comboBoxGrade = new JComboBox<String>();
+		String[] gradeList = new String[5];
+		gradeList[0] = "A";
+		gradeList[1] = "B";
+		gradeList[2] = "C";
+		gradeList[3] = "D";
+		gradeList[4] = "E";
+		gradeList[5] = "U";
+		JComboBox<String> comboBoxGrade = new JComboBox<String>(gradeList);
 		comboBoxGrade.setBounds(553, 365, 134, 27);
 		register.add(comboBoxGrade);
 
