@@ -23,15 +23,15 @@ public class Controller {
 		dataAccessLayer = new DAL();
 	}
 
-	public void addStudent(String pnr, String name, String adress, String tel)
+	public boolean addStudent(String pnr, String name, String adress, String tel)
 			throws SQLException {
-		dataAccessLayer.addStudent(pnr, name, adress, tel);
+		return dataAccessLayer.addStudent(pnr, name, adress, tel);
 
 	}
 
-	public void addCourse(String cCode, String cDescription, int hp)
+	public boolean addCourse(String cCode, String cDescription, int hp)
 			throws SQLException {
-		dataAccessLayer.addCourse(cCode, cDescription, hp);
+		return dataAccessLayer.addCourse(cCode, cDescription, hp);
 	}
 
 	public Student findStudent(String pnr) throws SQLException {
@@ -44,33 +44,33 @@ public class Controller {
 		return course;
 	}
 
-	public void removeCourse(String cCode) throws SQLException {
-		dataAccessLayer.deleteCourse(cCode);
+	public boolean removeCourse(String cCode) throws SQLException {
+		return dataAccessLayer.deleteCourse(cCode);
 	}
 
-	public void removeStudent(String pnr) throws SQLException {
-		dataAccessLayer.deleteStudent(pnr);
+	public boolean removeStudent(String pnr) throws SQLException {
+		return dataAccessLayer.deleteStudent(pnr);
 	}
 
-	public void addStudentToStudied(String cCode, String sPnr, String sGrade)
+	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade)
 			throws SQLException {
-		dataAccessLayer.addStudentToStudied(cCode, sPnr, sGrade);
+		return dataAccessLayer.addStudentToStudied(cCode, sPnr, sGrade);
 	}
 
-	public void addCourseToStudies(String sPnr, String cCode)
+	public boolean addCourseToStudies(String sPnr, String cCode)
 			throws SQLException {
-		dataAccessLayer.addStudentToStudies(sPnr, cCode);
+		return dataAccessLayer.addStudentToStudies(sPnr, cCode);
 	}
 
-	public void removeStudentFromStudies(String sPnr, String cCode)
+	public boolean removeStudentFromStudies(String sPnr, String cCode)
 			throws SQLException {
-		dataAccessLayer.deleteStudentFromStudies(sPnr, cCode);
+		return dataAccessLayer.deleteStudentFromStudies(sPnr, cCode);
 	}
 
-	public ArrayList<Student> findResultOnCourse(String cCode)
+	public ArrayList<Studied> findResultOnCourse(String cCode)
 			throws SQLException {
-		studentList = dataAccessLayer.findResultOnCourse(cCode);
-		return studentList;
+		studiedList = dataAccessLayer.findResultOnCourse(cCode);
+		return studiedList;
 	}
 
 	public ArrayList<Studied> findStudentResult(String pnr, String cCode)

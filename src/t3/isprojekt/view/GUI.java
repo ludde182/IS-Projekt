@@ -151,7 +151,7 @@ public class GUI {
 						textsPnr.setText("NoStudent");
 					}
 				} catch (SQLException e1) {
-					textsPnr.setText("NO CONNECTION");
+					textsPnr.setText("NoConnection");
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -243,8 +243,8 @@ public class GUI {
 						textHP.setText(Integer.toString(course.getHp()));
 					} else {
 						textCourseCode.setText("NoCourse");
-						textcDescription.setText(course.getcDescription());
-						textHP.setText(Integer.toString(course.getHp()));
+						textcDescription.setText("");
+						textHP.setText("");
 					}
 				} catch (SQLException e1) {
 					textCourseCode.setText("NoConnection");
@@ -404,11 +404,18 @@ public class GUI {
 				String adress = textrAdress.getText();
 				String tel = textTelnr.getText();
 				try {
-					controller.addStudent(pnr, name, adress, tel);
-					textrAddPnr.setText("Added");
-					textrAddName.setText("");
-					textrAdress.setText("");
-					textTelnr.setText("");
+					boolean b = controller.addStudent(pnr, name, adress, tel);
+					if (b == true) {
+						textrAddPnr.setText("Added");
+						textrAddName.setText("");
+						textrAdress.setText("");
+						textTelnr.setText("");
+					} else {
+						textrAddPnr.setText("NotAdded");
+						textrAddName.setText("");
+						textrAdress.setText("");
+						textTelnr.setText("");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					textrAddPnr.setText("NoConnection");
@@ -430,10 +437,16 @@ public class GUI {
 				String name = textrNAme.getText();
 				int HP = Integer.parseInt(textrHP.getText());
 				try {
-					controller.addCourse(code, name, HP);
-					textrCode.setText("Added");
-					textrNAme.setText("");
-					textrHP.setText("");
+					boolean b = controller.addCourse(code, name, HP);
+					if (b == true) {
+						textrCode.setText("Added");
+						textrNAme.setText("");
+						textrHP.setText("");
+					} else {
+						textrCode.setText("NotAdded");
+						textrNAme.setText("");
+						textrHP.setText("");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					textrCode.setText("NoConnection");
@@ -454,13 +467,20 @@ public class GUI {
 				String code = textrCcode.getText();
 				String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
-					controller.addStudentToStudied(code, pnr, grade);
-					textrrPnr.setText("Finished");
-					textrCcode.setText("");
+					boolean b1 = controller.addStudentToStudied(code, pnr,
+							grade);
+					boolean b2 = controller.removeStudentFromStudies(pnr, code);
+					if (b1 == true && b2 == true) {
+						textrrPnr.setText("Finished");
+						textrCcode.setText("");
+					} else {
+						textrrPnr.setText("FailedToDelete");
+						textrCcode.setText("");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					textrrPnr.setText("NoConnection");
+					textrrrPnr.setText("NoConnection");
 					textrCcode.setText("");
 				}
 			}
@@ -496,8 +516,12 @@ public class GUI {
 				String pnr = textrrrPnr.getText();
 				String course = comboBox.getSelectedItem().toString();
 				try {
-					controller.addCourseToStudies(pnr, course);
-					textrrrPnr.setText("Added");
+					boolean b = controller.addCourseToStudies(pnr, course);
+					if (b == true) {
+						textrrrPnr.setText("Added");
+					} else {
+						textrrrPnr.setText("FailedToAdd");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -528,8 +552,12 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textRemovePnr.getText();
 				try {
-					controller.removeStudent(pnr);
-					textRemovePnr.setText("Removed");
+					boolean b = controller.removeStudent(pnr);
+					if (b == true) {
+						textRemovePnr.setText("Removed");
+					} else {
+						textRemovePnr.setText("FailedToRemove");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -559,8 +587,12 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String code = textRemoveCode.getText();
 				try {
-					controller.removeCourse(code);
-					textRemoveCode.setText("Removed");
+					boolean b = controller.removeCourse(code);
+					if (b == true) {
+						textRemoveCode.setText("Removed");
+					} else {
+						textRemoveCode.setText("FailedToRemove");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					textRemoveCode.setText("NoConnection");
