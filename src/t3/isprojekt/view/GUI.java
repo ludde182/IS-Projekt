@@ -393,7 +393,7 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		final JComboBox comboBoxGrade = new JComboBox();
+		JComboBox<String> comboBoxGrade = new JComboBox<String>();
 		comboBoxGrade.setBounds(553, 365, 134, 27);
 		register.add(comboBoxGrade);
 
@@ -510,7 +510,7 @@ public class GUI {
 			i++;
 		}
 
-		JComboBox comboBox = new JComboBox(cList);
+		final JComboBox comboBox = new JComboBox(cList);
 		comboBox.setBounds(553, 109, 134, 27);
 		register.add(comboBox);
 
