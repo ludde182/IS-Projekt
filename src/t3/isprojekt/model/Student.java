@@ -6,7 +6,7 @@ public class Student {
 	private String sAdress;
 	private String sTfn;
 
-	public Student(String sPnr, String name, String sAdress, String sTfn) {
+	public Student(String sPnr, String sName, String sAdress, String sTfn) {
 		setsPnr(sPnr);
 		setsName(sName);
 		setsAdress(sAdress);
