@@ -392,7 +392,7 @@ public class GUI {
 		lblcrGrade.setBounds(486, 155, 61, 16);
 		register.add(lblcrGrade);
 
-		JComboBox comboBoxGrade = new JComboBox();
+		final JComboBox comboBoxGrade = new JComboBox();
 		comboBoxGrade.setBounds(553, 151, 134, 27);
 		register.add(comboBoxGrade);
 
@@ -448,6 +448,23 @@ public class GUI {
 		register.add(btnAddCourse);
 
 		JButton btnFinish = new JButton("Finish");
+		btnFinish.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textrrPnr.getText();
+				String code = textrCcode.getText();
+				String grade = comboBoxGrade.getSelectedItem().toString();
+				try {
+					controller.addStudentToStudied(code, pnr, grade);
+					textrrPnr.setText("Finished");
+					textrCcode.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textrrPnr.setText("NoConnection");
+					textrCcode.setText("");
+				}
+			}
+		});
 		btnFinish.setBounds(570, 182, 117, 29);
 		register.add(btnFinish);
 
@@ -465,7 +482,7 @@ public class GUI {
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
-		JComboBox comboBox = new JComboBox();
+		final JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(553, 288, 134, 27);
 		register.add(comboBox);
 
@@ -474,6 +491,21 @@ public class GUI {
 		register.add(lblKurs);
 
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textrrrPnr.getText();
+				String course = comboBox.getSelectedItem().toString();
+				try {
+					controller.addCourseToStudies(pnr, course);
+					textrrrPnr.setText("Added");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textrrrPnr.setText("NoConnection");
+
+				}
+			}
+		});
 		btnAdd.setBounds(570, 325, 117, 29);
 		register.add(btnAdd);
 
@@ -492,6 +524,19 @@ public class GUI {
 		textRemovePnr.setColumns(10);
 
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String pnr = textRemovePnr.getText();
+				try {
+					controller.removeStudent(pnr);
+					textRemovePnr.setText("Removed");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					textRemovePnr.setText("NoConnection");
+				}
+			}
+		});
 		btnRemove.setBounds(106, 312, 117, 29);
 		register.add(btnRemove);
 
@@ -510,6 +555,19 @@ public class GUI {
 		textRemoveCode.setColumns(10);
 
 		JButton btnRemove_1 = new JButton("Remove");
+		btnRemove_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String code = textRemoveCode.getText();
+				try {
+					controller.removeCourse(code);
+					textRemoveCode.setText("Removed");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					textRemoveCode.setText("NoConnection");
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnRemove_1.setBounds(334, 287, 117, 29);
 		register.add(btnRemove_1);
 
