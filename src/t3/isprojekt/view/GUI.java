@@ -503,7 +503,14 @@ public class GUI {
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
-		final JComboBox comboBox = new JComboBox(controller.findAllCourses());
+		int i = 0;
+		String[] cList = new String[controller.findAllCourses().size()];
+		for (Course c : controller.findAllCourses()) {
+			cList[i] = c.getcCode();
+			i++;
+		}
+
+		JComboBox comboBox = new JComboBox(cList);
 		comboBox.setBounds(553, 109, 134, 27);
 		register.add(comboBox);
 

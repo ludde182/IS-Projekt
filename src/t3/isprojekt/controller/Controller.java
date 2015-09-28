@@ -85,7 +85,7 @@ public class Controller {
 		return percent;
 	}
 
-	public String[] findAllCourses() throws SQLException {
+	public ArrayList<Course> findAllCourses() throws SQLException {
 		return dataAccessLayer.findAllCourses();
 	}
 
