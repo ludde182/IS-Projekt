@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import t3.isprojekt.controller.Controller;
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
+import t3.isprojekt.model.Studied;
 
 public class GUI {
 
@@ -28,9 +30,9 @@ public class GUI {
 	private JTextField textsName;
 	private JTextField textsAdress;
 	private JTextField textsTel;
-	private DefaultTableModel tableModelStudents;
+	private DefaultTableModel dtm;
 	private Controller controller;
-	private JTable table;
+	private JTable tableStudent;
 	private JTable table_1;
 	private JTextField textCourseCode;
 	private JTextField textcDescription;
@@ -47,6 +49,7 @@ public class GUI {
 	private JTextField textrrrPnr;
 	private JTextField textRemovePnr;
 	private JTextField textRemoveCode;
+	private JComboBox<String> comboBoxGrade;
 
 	/**
 	 * Launch the application.
@@ -169,20 +172,25 @@ public class GUI {
 		Object row[][] = { { "1", "2", "3" }, { "4", "5", "6" } };
 		Object column[] = { "hej", "san", "hop" };
 
-		table = new JTable(row, column);
-		table.setBounds(75, 154, 1, 1);
-		student.add(table);
+		tableStudent = new JTable(row, column);
+		tableStudent.setBounds(75, 154, 1, 1);
+		student.add(tableStudent);
 
 		JButton btnsStuding = new JButton("Studing");
 		btnsStuding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String pnr = textsPnr.getText();
+
 			}
 		});
 		btnsStuding.setBounds(378, 256, 117, 29);
 		student.add(btnsStuding);
 
 		JButton btnStudied = new JButton("Studied");
+		btnStudied.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnStudied.setBounds(496, 256, 117, 29);
 		student.add(btnStudied);
 
@@ -223,15 +231,15 @@ public class GUI {
 		textHP.setColumns(10);
 		// Table
 		JScrollPane scrollPaneC = new JScrollPane();
-		scrollPaneC.setBounds(288, 19, 441, 206);
+		scrollPaneC.setBounds(288, 19, 324, 206);
 		course.add(scrollPaneC);
 
-		JTable table_C = new JTable();
-		scrollPaneC.setViewportView(table_C);
-
 		JTable tableC = new JTable();
-		tableC.setBounds(75, 154, 1, 1);
-		course.add(tableC);
+		scrollPaneC.setViewportView(tableC);
+
+		JTable tableCourse = new JTable();
+		tableCourse.setBounds(75, 154, 1, 1);
+		course.add(tableCourse);
 
 		JButton btnSearchCourse = new JButton("Search Course");
 		btnSearchCourse.addActionListener(new ActionListener() {
@@ -262,6 +270,27 @@ public class GUI {
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String code = textCourseCode.getText();
+				String[] col = new String[3];
+				col[0] = "Student";
+				col[1] = "Grade";
+				ArrayList<Studied> studied = new ArrayList<Studied>();
+				try {
+					studied = controller.findAllStudied(code);
+					String[][] rad = new String[2][studied.size()];
+					int i = 0;
+					for (Studied s : studied) {
+						rad[0][i] = s.getsPnr();
+						rad[1][i] = s.getsGrade();
+					}
+				} catch (SQLException e2) {
+					textCourseCode.setText("NoConnection");
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
+				dtm = new DefaultTableModel();
+				tableStudent.removeAll();
+				tableStudent.setModel(dtm);
 				try {
 					controller.findResultOnCourse(code);
 				} catch (SQLException e1) {
@@ -274,11 +303,7 @@ public class GUI {
 		btnStudentsOnCourse.setBounds(392, 237, 111, 29);
 		course.add(btnStudentsOnCourse);
 
-		JButton btnGrades = new JButton("Grades");
-		btnGrades.setBounds(606, 237, 117, 29);
-		course.add(btnGrades);
-
-		JButton btnStudied_1 = new JButton("Studies");
+		JButton btnStudied_1 = new JButton("Studing");
 		btnStudied_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -393,16 +418,16 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		String[] gradeList = new String[5];
-		gradeList[0] = "A";
-		gradeList[1] = "B";
-		gradeList[2] = "C";
-		gradeList[3] = "D";
-		gradeList[4] = "E";
-		gradeList[5] = "U";
-		JComboBox<String> comboBoxGrade = new JComboBox<String>(gradeList);
-		comboBoxGrade.setBounds(553, 365, 134, 27);
-		register.add(comboBoxGrade);
+		// String[] gradeList = new String[6];
+		// gradeList[0] = "A";
+		// gradeList[1] = "B";
+		// gradeList[2] = "C";
+		// gradeList[3] = "D";
+		// gradeList[4] = "E";
+		// gradeList[5] = "U";
+		// comboBoxGrade = new JComboBox<String>(gradeList);
+		// comboBoxGrade.setBounds(553, 365, 134, 27);
+		// register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
 		btnAddStudent.addActionListener(new ActionListener() {
@@ -473,7 +498,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrPnr.getText();
 				String code = textrCcode.getText();
-				String grade = comboBoxGrade.getSelectedItem().toString();
+				// String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
 					boolean b1 = controller.addStudentToStudied(code, pnr,
 							grade);
@@ -517,9 +542,9 @@ public class GUI {
 			i++;
 		}
 
-		final JComboBox comboBox = new JComboBox(cList);
-		comboBox.setBounds(553, 109, 134, 27);
-		register.add(comboBox);
+		// final JComboBox<String> comboBox = new JComboBox<String>(cList);
+		// comboBox.setBounds(553, 109, 134, 27);
+		// register.add(comboBox);
 
 		JLabel lblKurs = new JLabel("Kurs:");
 		lblKurs.setBounds(486, 113, 61, 16);
@@ -529,21 +554,16 @@ public class GUI {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrrPnr.getText();
-				String course = comboBox.getSelectedItem().toString();
-				try {
-					boolean b = controller.addCourseToStudies(pnr, course);
-					if (b == true) {
-						textrrrPnr.setText("Added");
-					} else {
-						textrrrPnr.setText("FailedToAdd");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					textrrrPnr.setText("NoConnection");
-
-				}
-			}
+				/*
+				 * String course = comboBox.getSelectedItem().toString(); try {
+				 * boolean b = controller.addCourseToStudies(pnr, course); if (b
+				 * == true) { textrrrPnr.setText("Added"); } else {
+				 * textrrrPnr.setText("FailedToAdd"); } } catch (SQLException
+				 * e1) { // TODO Auto-generated catch block
+				 * e1.printStackTrace(); textrrrPnr.setText("NoConnection");
+				 * 
+				 * }
+				 */}
 		});
 		btnAdd.setBounds(570, 150, 117, 29);
 		register.add(btnAdd);
