@@ -66,10 +66,10 @@ public class DAL {
 			ResultSet rset = stmt.executeQuery(findStudentSQL);
 
 			while (rset.next()) {
-				sPnr = rset.getString(1);
-				sName = rset.getString(2);
-				sAdress = rset.getString(3);
-				sTfn = rset.getString(4);
+				sPnr = rset.getString("sPnr");
+				sName = rset.getString("sName");
+				sAdress = rset.getString("sAdress");
+				sTfn = rset.getString("sTfn");
 
 				student = new Student(sPnr, sName, sAdress, sTfn);
 
@@ -90,24 +90,16 @@ public class DAL {
 	}
 
 	// Finds all courses and returns a list.
-	public String[] findAllCourses() throws SQLException {
+	public ArrayList<Course> findAllCourses() throws SQLException {
 		String findAllCoursesSQL = "Select* FROM Course;";
 		Statement stmt = null;
 		ArrayList<Course> courseList = new ArrayList<Course>();
-		String[] clist = new String[courseList.size()];
-
 		try {
 			stmt = getConn().createStatement();
 			ResultSet rset = stmt.executeQuery(findAllCoursesSQL);
 			while (rset.next()) {
 				course = new Course(rset.getString(1), rset.getString(2), rset.getInt(3));
 				courseList.add(course);
-			}
-			int i = 0;
-
-			for (Course c : courseList) {
-				clist[i] = c.getcCode();
-				i++;
 			}
 
 		} catch (SQLException se) {
@@ -119,7 +111,7 @@ public class DAL {
 			}
 		}
 
-		return clist;
+		return courseList;
 	}
 
 	// Finds a Course with a cCode input.
