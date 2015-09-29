@@ -189,9 +189,6 @@ public class GUI {
 		scrollPane.setBounds(263, 38, 339, 206);
 		student.add(scrollPane);
 
-		Object row[][] = { { "1", "2", "3" }, { "4", "5", "6" } };
-		Object column[] = { "hej", "san", "hop" };
-
 		tableStudent = new JTable(row, column);
 		tableStudent.setBounds(75, 154, 1, 1);
 		student.add(tableStudent);
@@ -314,14 +311,16 @@ public class GUI {
 				String[] col = new String[2];
 				col[0] = "Pnr";
 				col[1] = "Name";
-				ArrayList<Student> studies = new ArrayList<Student>();
+
 				try {
-					studies = controller.findAllStudies(code);
-					String[][] rad = new String[2][studies.size()];
-					int i = 0;
-					for (Student s : studies) {
-						rad[0][i] = s.getsPnr();
-						rad[1][i] = s.getsName();
+
+					String[][] rad = new String[2][controller.findAllStudies(
+							code).size()];
+					for (int i = 0; i < controller.findAllStudies(code).size(); i++) {
+						rad[0][i] = controller.findAllStudies(code).get(i)
+								.getsPnr();
+						rad[1][i] = controller.findAllStudies(code).get(i)
+								.getsName();
 					}
 				} catch (SQLException e2) {
 					textCourseCode.setText("NoConnection");
@@ -330,7 +329,6 @@ public class GUI {
 				}
 
 				dtm = new DefaultTableModel();
-				tableStudent.removeAll();
 				tableStudent.setModel(dtm);
 			}
 		});
@@ -502,6 +500,7 @@ public class GUI {
 						textrCode.setText("Added");
 						textrNAme.setText("");
 						textrHP.setText("");
+						comboBox.addItem(code);
 					} else {
 						textrCode.setText("NotAdded");
 						textrNAme.setText("");
@@ -576,6 +575,7 @@ public class GUI {
 					boolean b = controller.addCourseToStudies(pnr, course);
 					if (b == true) {
 						textrrrPnr.setText("Added");
+
 					} else {
 						textrrrPnr.setText("FailedToAdd");
 					}
