@@ -232,9 +232,6 @@ public class GUI {
 		scrollPaneC.setBounds(288, 19, 324, 206);
 		course.add(scrollPaneC);
 
-		JTable tableC = new JTable();
-		scrollPaneC.setViewportView(tableCourse);
-
 		table = new JTable();
 		scrollPaneC.setViewportView(table);
 
@@ -266,7 +263,17 @@ public class GUI {
 		JButton btnStudentsOnCourse = new JButton("Studied");
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String code = textCourseCode.getText();
+				try {
 
+					dtm = new DefaultTableModel(controller
+							.getStudentsFromVector(code), 3);
+					table.removeAll();
+					table.setModel(dtm);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnStudentsOnCourse.setBounds(392, 237, 111, 29);
