@@ -271,7 +271,8 @@ public class GUI {
 				names.add(2, "Adress:");
 				names.add(3, "Betyg:");
 				try {
-					dtm = new DefaultTableModel(controller.getAllStudentsResultOnCourseVector(code), names);
+					dtm = new DefaultTableModel(controller
+							.getAllStudentsResultOnCourseVector(code), names);
 					table.removeAll();
 					table.setModel(dtm);
 				} catch (SQLException e1) {
@@ -372,7 +373,8 @@ public class GUI {
 		textrHP.setColumns(10);
 
 		JLabel lblRegisterOnCourse = new JLabel("Finish course");
-		lblRegisterOnCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblRegisterOnCourse
+				.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		lblRegisterOnCourse.setBounds(501, 260, 134, 16);
 		register.add(lblRegisterOnCourse);
 
@@ -481,7 +483,8 @@ public class GUI {
 				String code = textrCcode.getText();
 				String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
-					boolean b1 = controller.addStudentToStudied(code, pnr, grade);
+					boolean b1 = controller.addStudentToStudied(code, pnr,
+							grade);
 					boolean b2 = controller.removeStudentFromStudies(pnr, code);
 					if (b1 == true && b2 == true) {
 						textrrPnr.setText("Finished");
