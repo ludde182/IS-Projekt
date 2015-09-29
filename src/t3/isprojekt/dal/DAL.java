@@ -192,9 +192,9 @@ public class DAL {
 			while (rset.next()) {
 				sPnr = rset.getString("sPnr");
 				cCode = rset.getString("cCode");
-				sAdress = rset.getString("sAdress");
+				String sGrade = rset.getString("sGrade");
 
-				studied = new Studied(sPnr, cCode, sAdress);
+				studied = new Studied(sPnr, cCode, sGrade);
 
 			}
 		} catch (SQLException se) {

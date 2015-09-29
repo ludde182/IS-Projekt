@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import t3.isprojekt.controller.Controller;
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
+import t3.isprojekt.model.Studied;
 
 public class GUI {
 
@@ -54,6 +55,7 @@ public class GUI {
 	private JPanel register = new JPanel();
 	private JTable table;
 	private JLabel labelPercent;
+	private JTextField textOnCourse;
 
 	/**
 	 * Launch the application.
@@ -103,6 +105,17 @@ public class GUI {
 
 		frame.getContentPane().add(tabbedPane);
 
+		textStudentOnCourse = new JTextField();
+		textStudentOnCourse.setEditable(true);
+		textStudentOnCourse.setBounds(104, 255, 134, 28);
+		textStudentOnCourse.setColumns(10);
+
+		final JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(121, 295, 117, 29);
+
+		final JLabel lblCourse = new JLabel("Course:");
+		lblCourse.setBounds(31, 261, 61, 16);
+
 		// STUDENT
 		final JPanel student = new JPanel();
 		tabbedPane.addTab("Student", null, student, null);
@@ -147,20 +160,15 @@ public class GUI {
 		student.add(textsTel);
 		textsTel.setColumns(10);
 
-		textStudentOnCourse = new JTextField();
-		textStudentOnCourse.setEditable(true);
-		textStudentOnCourse.setBounds(104, 255, 134, 28);
-		textStudentOnCourse.setColumns(10);
-
-		final JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(121, 295, 117, 29);
-
-		final JLabel lblCourse = new JLabel("Course:");
-		lblCourse.setBounds(31, 261, 61, 16);
+		final JLabel lblGradeStudent = new JLabel("");
+		lblGradeStudent.setFont(new Font("Adobe Caslon Pro", Font.PLAIN, 70));
+		lblGradeStudent.setBounds(443, 119, 61, 107);
 
 		JButton btnsSearch = new JButton("Search student");
 		btnsSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblGradeStudent.setText("");
+				textOnCourse.setEditable(false);
 				String pnr = textsPnr.getText();
 				try {
 					Student students = controller.findStudent(pnr);
@@ -168,10 +176,7 @@ public class GUI {
 						textsName.setText(students.getsName());
 						textsAdress.setText(students.getsAdress());
 						textsTel.setText(students.getsTfn());
-						textStudentOnCourse.setEditable(true);
-						student.add(btnSearch);
-						student.add(textStudentOnCourse);
-						student.add(lblCourse);
+						textOnCourse.setEditable(true);
 					} else {
 						textsPnr.setText("NoStudent");
 					}
@@ -180,6 +185,8 @@ public class GUI {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				student.repaint();
+				frame.repaint();
 			}
 		});
 		btnsSearch.setBounds(121, 245, 117, 29);
@@ -188,6 +195,36 @@ public class GUI {
 		tableStudent = new JTable();
 		tableStudent.setBounds(75, 154, 1, 1);
 		student.add(tableStudent);
+
+		JLabel lblOnCourse = new JLabel("On course:");
+		lblOnCourse.setBounds(311, 44, 77, 16);
+		student.add(lblOnCourse);
+
+		textOnCourse = new JTextField();
+		textOnCourse.setEditable(false);
+		textOnCourse.setBounds(400, 38, 134, 28);
+		student.add(textOnCourse);
+		textOnCourse.setColumns(10);
+
+		JButton btnResult = new JButton("Result");
+		btnResult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String code = textOnCourse.getText();
+				String pnr = textsPnr.getText();
+
+				try {
+					Studied stud = controller.findStudentResult(pnr, code);
+					lblGradeStudent.setText(stud.getsGrade());
+					student.add(lblGradeStudent);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frame.repaint();
+			}
+		});
+		btnResult.setBounds(417, 78, 117, 29);
+		student.add(btnResult);
 
 		// COURSE
 		JPanel course = new JPanel();
@@ -267,13 +304,11 @@ public class GUI {
 				names.add(2, "Adress:");
 				names.add(3, "Betyg:");
 				try {
-					dtm = new DefaultTableModel(controller
-							.getAllStudentsResultOnCourseVector(code), names);
+					dtm = new DefaultTableModel(controller.getAllStudentsResultOnCourseVector(code), names);
 					table.removeAll();
 					table.setModel(dtm);
 
-					labelPercent = new JLabel(controller
-							.findPrecentageGrade(code));
+					labelPercent = new JLabel(controller.findPrecentageGrade(code));
 					labelPercent.setBounds(551, 272, 61, 16);
 					course.add(labelPercent);
 				} catch (SQLException e1) {
@@ -294,8 +329,7 @@ public class GUI {
 				names.add(1, "Name:");
 				names.add(2, "Adress:");
 				try {
-					dtm = new DefaultTableModel(controller
-							.getAllStudentsReadingCourseVector(code), names);
+					dtm = new DefaultTableModel(controller.getAllStudentsReadingCourseVector(code), names);
 					table.removeAll();
 					table.setModel(dtm);
 				} catch (SQLException e1) {
@@ -388,8 +422,7 @@ public class GUI {
 		textrHP.setColumns(10);
 
 		JLabel lblRegisterOnCourse = new JLabel("Finish course");
-		lblRegisterOnCourse
-				.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblRegisterOnCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		lblRegisterOnCourse.setBounds(501, 260, 134, 16);
 		register.add(lblRegisterOnCourse);
 
@@ -498,8 +531,7 @@ public class GUI {
 				String code = textrCcode.getText();
 				String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
-					boolean b1 = controller.addStudentToStudied(code, pnr,
-							grade);
+					boolean b1 = controller.addStudentToStudied(code, pnr, grade);
 					boolean b2 = controller.removeStudentFromStudies(pnr, code);
 					if (b1 == true && b2 == true) {
 						textrrPnr.setText("Finished");
