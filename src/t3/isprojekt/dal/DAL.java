@@ -210,13 +210,13 @@ public class DAL {
 
 	// Calculates how many percent of the Students got an A on a specific
 	// Course.
-	public String findPercentageGradeA(String cCode, String sGrade) throws SQLException {
+	public int findPercentageGradeA(String cCode) throws SQLException {
 		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
 				+ cCode + "')) AS GradePercentage" + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
 				+ "' AND sGrade'A'";
 
 		Statement stmt = null;
-		String gradePercent = null;
+		int gradePercent = 0;
 
 		try {
 			stmt = getConn().createStatement();
@@ -224,7 +224,7 @@ public class DAL {
 			ResultSet rs = stmt.executeQuery(findPercentageGradeASQL);
 
 			while (rs.next()) {
-				gradePercent = rs.getString(2);
+				gradePercent = Integer.parseInt(rs.getString(2));
 			}
 
 		} catch (SQLException se) {
@@ -492,6 +492,23 @@ public class DAL {
 
 	public Vector<Vector<String>> findAllStudentsResultOnCourseVector(String code) throws SQLException {
 		ResultSet rs = findAllStudentsResultsOnCourseResultset(code);
+
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		Vector<Vector<String>> tableData = new Vector<Vector<String>>();
+		while (rs.next()) {
+			Vector<String> temp = new Vector<String>();
+			for (int i = 1; i <= columnCount; i++) {
+				temp.add(rs.getString(i));
+			}
+			tableData.add(temp);
+		}
+		return tableData;
+	}
+
+	public Vector<Vector<String>> getAllStudentsReadingCourseVector(String cCode) throws SQLException {
+		ResultSet rs = findAllStudentsReadingCourseResultset(cCode);
 
 		ResultSetMetaData metaData = rs.getMetaData();
 		int columnCount = metaData.getColumnCount();
