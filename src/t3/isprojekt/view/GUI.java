@@ -51,6 +51,8 @@ public class GUI {
 	private JTextField textRemoveCode;
 	private JComboBox<String> comboBoxGrade;
 	private JTextField textStudentOnCourse;
+	private JComboBox comboBox = new JComboBox();
+	private JPanel register = new JPanel();
 
 	/**
 	 * Launch the application.
@@ -62,6 +64,7 @@ public class GUI {
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,6 +81,7 @@ public class GUI {
 	public GUI() throws SQLException {
 		initialize();
 		this.controller = new Controller();
+		use();
 	}
 
 	/**
@@ -334,7 +338,6 @@ public class GUI {
 		course.add(btnStudied_1);
 
 		// REGISTER
-		JPanel register = new JPanel();
 		tabbedPane.addTab("Register", null, register, null);
 		register.setLayout(null);
 
@@ -378,6 +381,9 @@ public class GUI {
 		textTelnr.setBounds(89, 189, 134, 28);
 		register.add(textTelnr);
 		textTelnr.setColumns(10);
+		comboBox = new JComboBox();
+		comboBox.setBounds(553, 109, 134, 27);
+		register.add(comboBox);
 
 		JLabel lblAddCourse = new JLabel("Add course");
 		lblAddCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -439,16 +445,16 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		// String[] gradeList = new String[6];
-		// gradeList[0] = "A";
-		// gradeList[1] = "B";
-		// gradeList[2] = "C";
-		// gradeList[3] = "D";
-		// gradeList[4] = "E";
-		// gradeList[5] = "U";
-		// comboBoxGrade = new JComboBox<String>(gradeList);
-		// comboBoxGrade.setBounds(553, 365, 134, 27);
-		// register.add(comboBoxGrade);
+		String[] gradeList = new String[6];
+		gradeList[0] = "A";
+		gradeList[1] = "B";
+		gradeList[2] = "C";
+		gradeList[3] = "D";
+		gradeList[4] = "E";
+		gradeList[5] = "U";
+		comboBoxGrade = new JComboBox<String>(gradeList);
+		comboBoxGrade.setBounds(553, 365, 134, 27);
+		register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
 		btnAddStudent.addActionListener(new ActionListener() {
@@ -519,7 +525,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrPnr.getText();
 				String code = textrCcode.getText();
-				// String grade = comboBoxGrade.getSelectedItem().toString();
+				String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
 					boolean b1 = controller.addStudentToStudied(code, pnr,
 							grade);
@@ -556,17 +562,6 @@ public class GUI {
 		register.add(textrrrPnr);
 		textrrrPnr.setColumns(10);
 
-		int i = 0;
-		String[] cList = new String[controller.findAllCourses().size()];
-		for (Course c : controller.findAllCourses()) {
-			cList[i] = c.getcCode();
-			i++;
-		}
-
-		// final JComboBox<String> comboBox = new JComboBox<String>(cList);
-		// comboBox.setBounds(553, 109, 134, 27);
-		// register.add(comboBox);
-
 		JLabel lblKurs = new JLabel("Kurs:");
 		lblKurs.setBounds(486, 113, 61, 16);
 		register.add(lblKurs);
@@ -575,16 +570,20 @@ public class GUI {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrrPnr.getText();
-				/*
-				 * String course = comboBox.getSelectedItem().toString(); try {
-				 * boolean b = controller.addCourseToStudies(pnr, course); if (b
-				 * == true) { textrrrPnr.setText("Added"); } else {
-				 * textrrrPnr.setText("FailedToAdd"); } } catch (SQLException
-				 * e1) { // TODO Auto-generated catch block
-				 * e1.printStackTrace(); textrrrPnr.setText("NoConnection");
-				 * 
-				 * }
-				 */}
+
+				String course = comboBox.getSelectedItem().toString();
+				try {
+					boolean b = controller.addCourseToStudies(pnr, course);
+					if (b == true) {
+						textrrrPnr.setText("Added");
+					} else {
+						textrrrPnr.setText("FailedToAdd");
+					}
+				} catch (SQLException e1) { // TODO Auto-generated catch block
+					e1.printStackTrace();
+					textrrrPnr.setText("NoConnection");
+				}
+			}
 		});
 		btnAdd.setBounds(570, 150, 117, 29);
 		register.add(btnAdd);
@@ -659,5 +658,27 @@ public class GUI {
 		btnRemove_1.setBounds(334, 322, 117, 29);
 		register.add(btnRemove_1);
 
+	}
+
+	public void use() {
+		// int i = 0;
+		// String[] cList;
+		try {
+			String[] array = new String[controller.findAllCourses().size()];
+			System.out.println(controller.findAllCourses().size());
+			for (int i = 0; i < array.length; i++) {
+				String s = controller.findAllCourses().get(i).getcCode();
+				comboBox.addItem(s);
+			}
+			// cList = new String[controller.findAllCourses().size()];
+
+			// for (Course c : controller.findAllCourses()) {
+			// cList[i] = c.getcCode();
+			// i++;
+			// }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
