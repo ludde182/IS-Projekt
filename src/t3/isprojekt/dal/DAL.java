@@ -267,8 +267,8 @@ public class DAL {
 		return currentlyReadingList;
 	}
 
-	public ResultSet findAllStudentsReadingCourseVector(String cCode) throws SQLException {
-		String findAllStudentsReadingCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Student s JOIN Studies e ON e.sPnr=s.sPnr WHERE cCode='"
+	public ResultSet findAllStudentsResultsOnCourseResultset(String cCode) throws SQLException {
+		String findAllStudentsResultsOnCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, e.sGrade  FROM Student s JOIN Studied e ON e.sPnr=s.sPnr WHERE cCode='"
 				+ cCode + "';";
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -276,14 +276,36 @@ public class DAL {
 		try {
 
 			stmt = getConn().createStatement();
-			rs = stmt.executeQuery(findAllStudentsReadingCourseSQL);
+			rs = stmt.executeQuery(findAllStudentsResultsOnCourseSQL);
 
 		} catch (SQLException se) {
 			se.printStackTrace();
 
 		} finally {
 			if (stmt != null) {
-				stmt.close();
+				// stmt.close();
+			}
+		}
+		return rs;
+	}
+
+	public ResultSet findAllStudentsReadingCourseResultset(String cCode) throws SQLException {
+		String findAllStudentsResultsOnCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Student s JOIN Studies e ON e.sPnr=s.sPnr WHERE cCode='"
+				+ cCode + "';";
+		ResultSet rs = null;
+		Statement stmt = null;
+
+		try {
+
+			stmt = getConn().createStatement();
+			rs = stmt.executeQuery(findAllStudentsResultsOnCourseSQL);
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				// stmt.close();
 			}
 		}
 		return rs;
@@ -468,8 +490,8 @@ public class DAL {
 		return updateStatus;
 	}
 
-	public Vector<Vector<String>> getStudensFromVector(String code) throws SQLException {
-		ResultSet rs = findAllStudentsReadingCourseVector(code);
+	public Vector<Vector<String>> findAllStudentsResultOnCourseVector(String code) throws SQLException {
+		ResultSet rs = findAllStudentsResultsOnCourseResultset(code);
 
 		ResultSetMetaData metaData = rs.getMetaData();
 		int columnCount = metaData.getColumnCount();
@@ -484,6 +506,29 @@ public class DAL {
 		}
 		return tableData;
 	}
+
+	/*
+	 * public int getTotalHp(String cCode, String sPnr) throws SQLException {
+	 * String getTotalHpSQL = "SELECT SUM(c.hp) FROM Course c WHERE c.ccode='" +
+	 * cCode + "' IN (SELECT h.ccode FROM Studied h WHERE h.sPnr ='" + sPnr +
+	 * "')";
+	 * 
+	 * Statement stmt = null;
+	 * 
+	 * try { stmt = getConn().createStatement(); ResultSet rset =
+	 * stmt.executeQuery(getTotalHpSQL);
+	 * 
+	 * while (rset.next()) { sPnr = rset.getString("sPnr"); sName =
+	 * rset.getString("sName"); sAdress = rset.getString("sAdress"); sTfn =
+	 * rset.getString("sTfn");
+	 * 
+	 * student = new Student(sPnr, sName, sAdress, sTfn);
+	 * 
+	 * } } catch (SQLException se) { se.printStackTrace();
+	 * 
+	 * } finally { if (stmt != null) { try { stmt.close(); } catch (SQLException
+	 * e) { e.printStackTrace(); } } } return student; }
+	 */
 
 	// Method for extracting Column Names from DB
 	public Vector<String> colNames(ResultSet r) throws SQLException {
