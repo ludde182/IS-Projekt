@@ -267,6 +267,28 @@ public class DAL {
 		return currentlyReadingList;
 	}
 
+	public ResultSet findAllStudentsReadingCourseVector(String cCode) throws SQLException {
+		String findAllStudentsReadingCourseSQL = "SELECT s.sPnr, s.sName, s.sAdress, s.sTfn  FROM Student s JOIN Studies e ON e.sPnr=s.sPnr WHERE cCode='"
+				+ cCode + "';";
+		ResultSet rs = null;
+		Statement stmt = null;
+
+		try {
+
+			stmt = getConn().createStatement();
+			rs = stmt.executeQuery(findAllStudentsReadingCourseSQL);
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return rs;
+	}
+
 	// ************************************* Manage
 	// database*****************************************
 	// Adds a Student to the database.
@@ -446,15 +468,17 @@ public class DAL {
 		return updateStatus;
 	}
 
-	public Vector<Vector<String>> tableData(ResultSet r) throws SQLException {
-		ResultSetMetaData metaData = r.getMetaData();
+	public Vector<Vector<String>> getStudensFromVector(String code) throws SQLException {
+		ResultSet rs = findAllStudentsReadingCourseVector(code);
+
+		ResultSetMetaData metaData = rs.getMetaData();
 		int columnCount = metaData.getColumnCount();
 
 		Vector<Vector<String>> tableData = new Vector<Vector<String>>();
-		while (r.next()) {
+		while (rs.next()) {
 			Vector<String> temp = new Vector<String>();
 			for (int i = 1; i <= columnCount; i++) {
-				temp.add(r.getString(i));
+				temp.add(rs.getString(i));
 			}
 			tableData.add(temp);
 		}
