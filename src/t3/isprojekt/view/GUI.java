@@ -53,6 +53,7 @@ public class GUI {
 	private JComboBox comboBox = new JComboBox();
 	private JPanel register = new JPanel();
 	private JTable table;
+	private JLabel labelPercent;
 
 	/**
 	 * Launch the application.
@@ -275,6 +276,11 @@ public class GUI {
 							.getAllStudentsResultOnCourseVector(code), names);
 					table.removeAll();
 					table.setModel(dtm);
+
+					labelPercent = new JLabel(controller
+							.findPrecentageGrade(code));
+					labelPercent.setBounds(551, 272, 61, 16);
+					course.add(labelPercent);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

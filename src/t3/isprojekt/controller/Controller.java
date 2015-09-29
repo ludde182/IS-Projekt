@@ -112,4 +112,8 @@ public class Controller {
 	public Vector<String> getColNames(ResultSet r) throws SQLException {
 		return dataAccessLayer.colNames(r);
 	}
+
+	public int getPercentA(String cCode) {
+		return dataAccessLayer.findPercentageGradeA(cCode);
+	}
 }
