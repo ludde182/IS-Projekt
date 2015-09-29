@@ -179,10 +179,9 @@ public class DAL {
 	}
 
 	// Finds a specific Students result.
-	public ArrayList<Studied> findStudentResult(String cCode, String sPnr) throws SQLException {
+	public Studied findStudentResult(String cCode, String sPnr) throws SQLException {
 		String findStudentResultSQL = "SELECT sPnr, cCode, sGrade FROM Studied WHERE sPnr='" + sPnr + "'and cCode='"
 				+ cCode + "'";
-		ArrayList<Studied> studiedList = new ArrayList<Studied>();
 		Statement stmt = null;
 
 		try {
@@ -191,12 +190,13 @@ public class DAL {
 			ResultSet rset = stmt.executeQuery(findStudentResultSQL);
 
 			while (rset.next()) {
-				if (rset.getString(2) != null) {
-					studied = new Studied(rset.getString(1), rset.getString(2), rset.getString(3));
-					studiedList.add(studied);
-				}
-			}
+				sPnr = rset.getString("sPnr");
+				cCode = rset.getString("cCode");
+				sAdress = rset.getString("sAdress");
 
+				studied = new Studied(sPnr, cCode, sAdress);
+
+			}
 		} catch (SQLException se) {
 			se.printStackTrace();
 
@@ -205,18 +205,18 @@ public class DAL {
 				stmt.close();
 			}
 		}
-		return studiedList;
+		return studied;
 	}
 
 	// Calculates how many percent of the Students got an A on a specific
 	// Course.
-	public int findPercentageGradeA(String cCode) throws SQLException {
-		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade))*100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
-				+ cCode + "')) AS GradePercentage" + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
-				+ "' AND sGrade'A'";
+	public String findPercentageGradeA(String cCode) throws SQLException {
+		String findPercentageGradeASQL = "SELECT sGrade, (COUNT(sGrade)* 100 / (SELECT COUNT(*) FROM Studied WHERE cCode='"
+				+ cCode + "')) AS ScorePercentage " + "FROM Studied GROUP BY cCode, sGrade HAVING cCode='" + cCode
+				+ "' AND sGrade='A';";
 
 		Statement stmt = null;
-		int gradePercent = 0;
+		String gradePercent = null;
 
 		try {
 			stmt = getConn().createStatement();
@@ -224,7 +224,7 @@ public class DAL {
 			ResultSet rs = stmt.executeQuery(findPercentageGradeASQL);
 
 			while (rs.next()) {
-				gradePercent = Integer.parseInt(rs.getString(2));
+				gradePercent = rs.getString(2);
 			}
 
 		} catch (SQLException se) {
@@ -524,28 +524,34 @@ public class DAL {
 		return tableData;
 	}
 
-	/*
-	 * public int getTotalHp(String cCode, String sPnr) throws SQLException {
-	 * String getTotalHpSQL = "SELECT SUM(c.hp) FROM Course c WHERE c.ccode='" +
-	 * cCode + "' IN (SELECT h.ccode FROM Studied h WHERE h.sPnr ='" + sPnr +
-	 * "')";
-	 * 
-	 * Statement stmt = null;
-	 * 
-	 * try { stmt = getConn().createStatement(); ResultSet rset =
-	 * stmt.executeQuery(getTotalHpSQL);
-	 * 
-	 * while (rset.next()) { sPnr = rset.getString("sPnr"); sName =
-	 * rset.getString("sName"); sAdress = rset.getString("sAdress"); sTfn =
-	 * rset.getString("sTfn");
-	 * 
-	 * student = new Student(sPnr, sName, sAdress, sTfn);
-	 * 
-	 * } } catch (SQLException se) { se.printStackTrace();
-	 * 
-	 * } finally { if (stmt != null) { try { stmt.close(); } catch (SQLException
-	 * e) { e.printStackTrace(); } } } return student; }
-	 */
+	public int getTotalHp(String cCode, String sPnr) throws SQLException {
+		String getTotalHpSQL = "SELECT SUM(c.hp) FROM Course c WHERE c.ccode='" + cCode
+				+ "' IN (SELECT h.ccode FROM Studied h WHERE h.sPnr ='" + sPnr + "')";
+		int hp = 0;
+		Statement stmt = null;
+
+		try {
+			stmt = getConn().createStatement();
+			ResultSet rset = stmt.executeQuery(getTotalHpSQL);
+
+			while (rset.next()) {
+				hp = rset.getInt("hp");
+
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return hp;
+	}
 
 	// Method for extracting Column Names from DB
 	public Vector<String> colNames(ResultSet r) throws SQLException {

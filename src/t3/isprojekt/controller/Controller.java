@@ -25,14 +25,12 @@ public class Controller {
 		dataAccessLayer = new DAL();
 	}
 
-	public boolean addStudent(String pnr, String name, String adress, String tel)
-			throws SQLException {
+	public boolean addStudent(String pnr, String name, String adress, String tel) throws SQLException {
 		return dataAccessLayer.addStudent(pnr, name, adress, tel);
 
 	}
 
-	public boolean addCourse(String cCode, String cDescription, int hp)
-			throws SQLException {
+	public boolean addCourse(String cCode, String cDescription, int hp) throws SQLException {
 		return dataAccessLayer.addCourse(cCode, cDescription, hp);
 	}
 
@@ -54,36 +52,30 @@ public class Controller {
 		return dataAccessLayer.deleteStudent(pnr);
 	}
 
-	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade)
-			throws SQLException {
+	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
 		return dataAccessLayer.addStudentToStudied(cCode, sPnr, sGrade);
 	}
 
-	public boolean addCourseToStudies(String sPnr, String cCode)
-			throws SQLException {
+	public boolean addCourseToStudies(String sPnr, String cCode) throws SQLException {
 		return dataAccessLayer.addCourseToStudies(sPnr, cCode);
 	}
 
-	public boolean removeStudentFromStudies(String sPnr, String cCode)
-			throws SQLException {
+	public boolean removeStudentFromStudies(String sPnr, String cCode) throws SQLException {
 		return dataAccessLayer.deleteStudentFromStudies(sPnr, cCode);
 	}
 
-	public ArrayList<Studied> findResultOnCourse(String cCode)
-			throws SQLException {
+	public ArrayList<Studied> findResultOnCourse(String cCode) throws SQLException {
 		studiedList = dataAccessLayer.findResultOnCourse(cCode);
 		return studiedList;
 	}
 
-	public ArrayList<Studied> findStudentResult(String pnr, String cCode)
-			throws SQLException {
-		studiedList = dataAccessLayer.findStudentResult(cCode, pnr);
-		return studiedList;
+	public Studied findStudentResult(String pnr, String cCode) throws SQLException {
+		studied = dataAccessLayer.findStudentResult(cCode, pnr);
+		return studied;
 	}
 
-	public String findPrecentageGrade(String cCode, String sGrade)
-			throws SQLException {
-		String percent = dataAccessLayer.findPercentageGradeA(cCode, sGrade);
+	public String findPrecentageGrade(String cCode) throws SQLException {
+		String percent = dataAccessLayer.findPercentageGradeA(cCode);
 		return percent;
 	}
 
@@ -99,21 +91,15 @@ public class Controller {
 		return dataAccessLayer.findResultOnCourse(cCode);
 	}
 
-	public Vector<Vector<String>> getAllStudentsResultOnCourseVector(String code)
-			throws SQLException {
+	public Vector<Vector<String>> getAllStudentsResultOnCourseVector(String code) throws SQLException {
 		return dataAccessLayer.findAllStudentsResultOnCourseVector(code);
 	}
 
-	public Vector<Vector<String>> getAllStudentsReadingCourseVector(String code)
-			throws SQLException {
+	public Vector<Vector<String>> getAllStudentsReadingCourseVector(String code) throws SQLException {
 		return dataAccessLayer.getAllStudentsReadingCourseVector(code);
 	}
 
 	public Vector<String> getColNames(ResultSet r) throws SQLException {
 		return dataAccessLayer.colNames(r);
-	}
-
-	public int getPercentA(String cCode) {
-		return dataAccessLayer.findPercentageGradeA(cCode);
 	}
 }
