@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -264,10 +265,14 @@ public class GUI {
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String code = textCourseCode.getText();
+				Vector<String> names = new Vector<String>();
+				names.add(0, "Pnr:");
+				names.add(1, "Name:");
+				names.add(2, "Adress:");
+				names.add(3, "Betyg:");
 				try {
-
-					dtm = new DefaultTableModel(controller
-							.getStudentsFromVector(code), 3);
+					dtm = new DefaultTableModel(names, controller
+							.getStudentsFromVector(code));
 					table.removeAll();
 					table.setModel(dtm);
 				} catch (SQLException e1) {
