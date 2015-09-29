@@ -182,13 +182,8 @@ public class GUI {
 				}
 			}
 		});
-		btnsSearch.setBounds(485, 256, 117, 29);
+		btnsSearch.setBounds(121, 245, 117, 29);
 		student.add(btnsSearch);
-
-		// Table
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(263, 38, 339, 206);
-		student.add(scrollPane);
 
 		tableStudent = new JTable();
 		tableStudent.setBounds(75, 154, 1, 1);
