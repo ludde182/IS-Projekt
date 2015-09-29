@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import t3.isprojekt.controller.Controller;
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
-import t3.isprojekt.model.Studied;
 
 public class GUI {
 
@@ -33,7 +31,7 @@ public class GUI {
 	private DefaultTableModel dtm;
 	private Controller controller;
 	private JTable tableStudent;
-	private JTable table_1;
+	private JTable tableCourse;
 	private JTextField textCourseCode;
 	private JTextField textcDescription;
 	private JTextField textHP;
@@ -53,6 +51,7 @@ public class GUI {
 	private JTextField textStudentOnCourse;
 	private JComboBox comboBox = new JComboBox();
 	private JPanel register = new JPanel();
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -154,7 +153,7 @@ public class GUI {
 		final JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(121, 295, 117, 29);
 
-		JLabel lblCourse = new JLabel("Course:");
+		final JLabel lblCourse = new JLabel("Course:");
 		lblCourse.setBounds(31, 261, 61, 16);
 
 		JButton btnsSearch = new JButton("Search student");
@@ -189,7 +188,7 @@ public class GUI {
 		scrollPane.setBounds(263, 38, 339, 206);
 		student.add(scrollPane);
 
-		tableStudent = new JTable(row, column);
+		tableStudent = new JTable();
 		tableStudent.setBounds(75, 154, 1, 1);
 		student.add(tableStudent);
 
@@ -234,11 +233,10 @@ public class GUI {
 		course.add(scrollPaneC);
 
 		JTable tableC = new JTable();
-		scrollPaneC.setViewportView(tableC);
+		scrollPaneC.setViewportView(tableCourse);
 
-		JTable tableCourse = new JTable();
-		tableCourse.setBounds(75, 154, 1, 1);
-		course.add(tableCourse);
+		table = new JTable();
+		scrollPaneC.setViewportView(table);
 
 		JButton btnSearchCourse = new JButton("Search Course");
 		btnSearchCourse.addActionListener(new ActionListener() {
@@ -268,36 +266,6 @@ public class GUI {
 		JButton btnStudentsOnCourse = new JButton("Studied");
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String code = textCourseCode.getText();
-				String[] col = new String[3];
-				col[0] = "Pnr";
-				col[1] = "Grade";
-				double sum = 0;
-				ArrayList<Studied> studied = new ArrayList<Studied>();
-				try {
-					studied = controller.findAllStudied(code);
-					String[][] rad = new String[2][studied.size()];
-					int i = 0;
-					for (Studied s : studied) {
-						rad[0][i] = s.getsPnr();
-						rad[1][i] = s.getsGrade();
-						if (s.getsGrade().equals("A")) {
-							sum++;
-						}
-					}
-					JLabel labelPercent = new JLabel(+100
-							* (sum / studied.size()) + "%");
-					labelPercent.setBounds(551, 272, 61, 16);
-					course.add(labelPercent);
-				} catch (SQLException e2) {
-					textCourseCode.setText("NoConnection");
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-
-				dtm = new DefaultTableModel();
-				tableStudent.removeAll();
-				tableStudent.setModel(dtm);
 
 			}
 		});
@@ -307,29 +275,6 @@ public class GUI {
 		JButton btnStudied_1 = new JButton("Studing");
 		btnStudied_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String code = textCourseCode.getText();
-				String[] col = new String[2];
-				col[0] = "Pnr";
-				col[1] = "Name";
-
-				try {
-
-					String[][] rad = new String[2][controller.findAllStudies(
-							code).size()];
-					for (int i = 0; i < controller.findAllStudies(code).size(); i++) {
-						rad[0][i] = controller.findAllStudies(code).get(i)
-								.getsPnr();
-						rad[1][i] = controller.findAllStudies(code).get(i)
-								.getsName();
-					}
-				} catch (SQLException e2) {
-					textCourseCode.setText("NoConnection");
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-
-				dtm = new DefaultTableModel();
-				tableStudent.setModel(dtm);
 			}
 		});
 		btnStudied_1.setBounds(497, 237, 117, 29);
@@ -379,9 +324,9 @@ public class GUI {
 		textTelnr.setBounds(89, 189, 134, 28);
 		register.add(textTelnr);
 		textTelnr.setColumns(10);
-		comboBox = new JComboBox();
-		comboBox.setBounds(553, 109, 134, 27);
-		register.add(comboBox);
+		// comboBox = new JComboBox();
+		// comboBox.setBounds(553, 109, 134, 27);
+		// register.add(comboBox);
 
 		JLabel lblAddCourse = new JLabel("Add course");
 		lblAddCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -443,16 +388,16 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		String[] gradeList = new String[6];
-		gradeList[0] = "A";
-		gradeList[1] = "B";
-		gradeList[2] = "C";
-		gradeList[3] = "D";
-		gradeList[4] = "E";
-		gradeList[5] = "U";
-		comboBoxGrade = new JComboBox<String>(gradeList);
-		comboBoxGrade.setBounds(553, 365, 134, 27);
-		register.add(comboBoxGrade);
+		// String[] gradeList = new String[6];
+		// gradeList[0] = "A";
+		// gradeList[1] = "B";
+		// gradeList[2] = "C";
+		// gradeList[3] = "D";
+		// gradeList[4] = "E";
+		// gradeList[5] = "U";
+		// comboBoxGrade = new JComboBox<String>(gradeList);
+		// comboBoxGrade.setBounds(553, 365, 134, 27);
+		// register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
 		btnAddStudent.addActionListener(new ActionListener() {
@@ -500,7 +445,7 @@ public class GUI {
 						textrCode.setText("Added");
 						textrNAme.setText("");
 						textrHP.setText("");
-						comboBox.addItem(code);
+						// comboBox.addItem(code);
 					} else {
 						textrCode.setText("NotAdded");
 						textrNAme.setText("");
@@ -524,7 +469,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrPnr.getText();
 				String code = textrCcode.getText();
-				String grade = comboBoxGrade.getSelectedItem().toString();
+				// String grade = comboBoxGrade.getSelectedItem().toString();
 				try {
 					boolean b1 = controller.addStudentToStudied(code, pnr,
 							grade);
@@ -570,7 +515,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String pnr = textrrrPnr.getText();
 
-				String course = comboBox.getSelectedItem().toString();
+				// String course = comboBox.getSelectedItem().toString();
 				try {
 					boolean b = controller.addCourseToStudies(pnr, course);
 					if (b == true) {
@@ -668,7 +613,7 @@ public class GUI {
 			System.out.println(controller.findAllCourses().size());
 			for (int i = 0; i < array.length; i++) {
 				String s = controller.findAllCourses().get(i).getcCode();
-				comboBox.addItem(s);
+				// comboBox.addItem(s);
 			}
 			// cList = new String[controller.findAllCourses().size()];
 
