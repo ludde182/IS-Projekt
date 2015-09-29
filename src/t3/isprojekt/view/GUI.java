@@ -287,6 +287,20 @@ public class GUI {
 		JButton btnStudied_1 = new JButton("Studing");
 		btnStudied_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String code = textCourseCode.getText();
+				Vector<String> names = new Vector<String>();
+				names.add(0, "Pnr:");
+				names.add(1, "Name:");
+				names.add(2, "Adress:");
+				try {
+					dtm = new DefaultTableModel(controller
+							.getAllStudentsReadingCourseVector(code), names);
+					table.removeAll();
+					table.setModel(dtm);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnStudied_1.setBounds(497, 237, 117, 29);
