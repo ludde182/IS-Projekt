@@ -3,9 +3,11 @@ package t3.isprojekt.dal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import t3.isprojekt.model.Course;
 import t3.isprojekt.model.Student;
@@ -115,7 +117,6 @@ public class DAL {
 				}
 			}
 		}
-		System.out.println("hej");
 		for (Course c : courseList) {
 			System.out.println(c.getcCode());
 		}
@@ -444,4 +445,33 @@ public class DAL {
 
 		return updateStatus;
 	}
+
+	public Vector<Vector<String>> tableData(ResultSet r) throws SQLException {
+		ResultSetMetaData metaData = r.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		Vector<Vector<String>> tableData = new Vector<Vector<String>>();
+		while (r.next()) {
+			Vector<String> temp = new Vector<String>();
+			for (int i = 1; i <= columnCount; i++) {
+				temp.add(r.getString(i));
+			}
+			tableData.add(temp);
+		}
+		return tableData;
+	}
+
+	// Method for extracting Column Names from DB
+	public Vector<String> colNames(ResultSet r) throws SQLException {
+		ResultSetMetaData metaData = r.getMetaData();
+
+		Vector<String> colNames = new Vector<String>();
+		int columnCount = metaData.getColumnCount();
+
+		for (int i = 1; i <= columnCount; i++) {
+			colNames.add(metaData.getColumnName(i));
+		}
+		return colNames;
+	}
+
 }
