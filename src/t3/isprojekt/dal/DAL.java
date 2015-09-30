@@ -14,7 +14,7 @@ import t3.isprojekt.model.Student;
 import t3.isprojekt.model.Studied;
 
 public class DAL {
-
+	private double flow;
 	private Student student;
 	private Course course;
 	private Studied studied;
@@ -30,14 +30,6 @@ public class DAL {
 	private int hp;
 
 	// Database credentials
-
-	/*
-	 * private static String connStr =
-	 * "jdbc:sqlserver://Localhost;Databases=IsProjekt;user=root;password=root;";
-	 * 
-	 * public static Connection getConn() throws SQLException { return
-	 * DriverManager.getConnection(connStr);
-	 */
 
 	public static Connection getConn() {
 		Connection conn = null;
@@ -116,9 +108,6 @@ public class DAL {
 					e.printStackTrace();
 				}
 			}
-		}
-		for (Course c : courseList) {
-			System.out.println(c.getcCode());
 		}
 		return courseList;
 	}
@@ -311,6 +300,33 @@ public class DAL {
 		return rs;
 	}
 
+	public ArrayList<Course> findStudentsCourses(String sPnr) throws SQLException {
+		String findStudentCoursesSQL = "SELECT * FROM Course c INNER JOIN Studies sa ON c.cCode=sa.cCode INNER JOIN Student s on s.sPnr=sa.sPnr"
+				+ "WHERE s.sPnr='" + sPnr + "'";
+		ArrayList<Course> studentCourses = new ArrayList<Course>();
+		Statement stmt = null;
+
+		try {
+
+			stmt = getConn().createStatement();
+			ResultSet rs = stmt.executeQuery(findStudentCoursesSQL);
+
+			while (rs.next()) {
+				course = new Course(rs.getString(1), rs.getString(2), rs.getInt(3));
+
+				studentCourses.add(course);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return studentCourses;
+	}
+
 	// ************************************* Manage
 	// database*****************************************
 	// Adds a Student to the database.
@@ -338,7 +354,11 @@ public class DAL {
 	}
 
 	// Adds a Course to the database.
-	public boolean addCourse(String cCode, String cDescription, int hp) throws SQLException {
+
+	public boolean addCourse(Course course) throws SQLException {
+		String cCode = course.getcCode();
+		String cDescription = course.getcDescription();
+		int hp = course.getHp();
 		String addCourseSQL = "INSERT INTO Course " + "values('" + cCode + "', '" + cDescription + "', '" + hp + "')";
 
 		Statement stmt = null;
@@ -414,6 +434,7 @@ public class DAL {
 	}
 
 	// Adds a Student to studies.
+
 	public boolean addCourseToStudies(String sPnr, String cCode) throws SQLException {
 		String addCourseToStudiesSQL = "INSERT INTO Studies " + "values('" + sPnr + "', '" + cCode + "')";
 		Statement stmt = null;
@@ -439,6 +460,7 @@ public class DAL {
 	}
 
 	// Adds a Course to Studied.
+
 	public boolean addStudentToStudied(String cCode, String sPnr, String sGrade) throws SQLException {
 		String addStudentToStudiedSQL = "INSERT INTO Studied " + "values('" + sPnr + "', '" + sGrade + "', '" + cCode
 				+ "')";
@@ -490,6 +512,7 @@ public class DAL {
 		return updateStatus;
 	}
 
+	// Finds all students results and returns a vector.
 	public Vector<Vector<String>> findAllStudentsResultOnCourseVector(String code) throws SQLException {
 		ResultSet rs = findAllStudentsResultsOnCourseResultset(code);
 
@@ -507,6 +530,7 @@ public class DAL {
 		return tableData;
 	}
 
+	// Finds all students who studies a specific course.
 	public Vector<Vector<String>> getAllStudentsReadingCourseVector(String cCode) throws SQLException {
 		ResultSet rs = findAllStudentsReadingCourseResultset(cCode);
 
@@ -523,21 +547,22 @@ public class DAL {
 		}
 		return tableData;
 	}
+	// Finds a students total hp.
 
-	public int getTotalHp(String cCode, String sPnr) throws SQLException {
-		String getTotalHpSQL = "SELECT SUM(c.hp) FROM Course c WHERE c.ccode='" + cCode
-				+ "' IN (SELECT h.ccode FROM Studied h WHERE h.sPnr ='" + sPnr + "')";
-		int hp = 0;
+	public int getTotalHp(String sPnr) throws SQLException {
+		int chp = 0;
+		String getTotalHpStudiedSQL = "SELECT SUM(hp) FROM Studies s JOIN Course c ON s.cCode=c.cCode WHERE sPnr='"
+				+ sPnr + "'";
 		Statement stmt = null;
 
 		try {
 			stmt = getConn().createStatement();
-			ResultSet rset = stmt.executeQuery(getTotalHpSQL);
+			ResultSet rset = stmt.executeQuery(getTotalHpStudiedSQL);
 
 			while (rset.next()) {
-				hp = rset.getInt("hp");
-
+				chp += rset.getInt(1);
 			}
+
 		} catch (SQLException se) {
 			se.printStackTrace();
 
@@ -550,10 +575,79 @@ public class DAL {
 				}
 			}
 		}
-		return hp;
+		return chp;
 	}
 
-	// Method for extracting Column Names from DB
+	public int getHp(String cCode) throws SQLException {
+		String getHpSQL = "SELECT hp FROM Course WHERE cCode='" + cCode + "'";
+		Statement stmt = null;
+		int courseHp = 0;
+
+		try {
+			stmt = getConn().createStatement();
+			ResultSet rset = stmt.executeQuery(getHpSQL);
+
+			while (rset.next()) {
+				courseHp = rset.getInt("hp");
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return courseHp;
+	}
+
+	public ResultSet getFlow() throws SQLException {
+		String getFlowSQL = "SELECT Alls.cCode, (Passed.passedStudents / CAST(Alls.antal as decimal))*100 as 'percent'"
+				+ "FROM (SELECT cCode, count(*) as passedStudents FROM Studied WHERE sGrade != 'U' GROUP BY cCode) "
+				+ "AS Passed INNER JOIN (SELECT cCode, COUNT(*) AS antal FROM Studied GROUP BY cCode) "
+				+ "AS Alls ON Alls.cCode = Passed.cCode ORDER BY 'percent';";
+		ResultSet rs = null;
+		Statement stmt = null;
+
+		try {
+
+			stmt = getConn().createStatement();
+			rs = stmt.executeQuery(getFlowSQL);
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (stmt != null) {
+				// stmt.close();
+			}
+		}
+		return rs;
+	}
+
+	public Vector<Vector<String>> getFlowVector() throws SQLException {
+		ResultSet rs = getFlow();
+
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		Vector<Vector<String>> tableData = new Vector<Vector<String>>();
+		while (rs.next()) {
+			Vector<String> temp = new Vector<String>();
+			for (int i = 1; i <= columnCount; i++) {
+				temp.add(rs.getString(i));
+			}
+			tableData.add(temp);
+		}
+		return tableData;
+	}
+
+	// Method for extracting Column Names from DB.
 	public Vector<String> colNames(ResultSet r) throws SQLException {
 		ResultSetMetaData metaData = r.getMetaData();
 

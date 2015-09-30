@@ -30,8 +30,8 @@ public class Controller {
 
 	}
 
-	public boolean addCourse(String cCode, String cDescription, int hp) throws SQLException {
-		return dataAccessLayer.addCourse(cCode, cDescription, hp);
+	public boolean addCourse(Course course) throws SQLException {
+		return dataAccessLayer.addCourse(course);
 	}
 
 	public Student findStudent(String pnr) throws SQLException {
@@ -101,5 +101,21 @@ public class Controller {
 
 	public Vector<String> getColNames(ResultSet r) throws SQLException {
 		return dataAccessLayer.colNames(r);
+	}
+
+	public ArrayList<Course> getAllCoursesOnStudent(String pnr) throws SQLException {
+		return dataAccessLayer.findStudentsCourses(pnr);
+	}
+
+	public int getHpOnCourse(String code) throws SQLException {
+		return dataAccessLayer.getHp(code);
+	}
+
+	public int getAllHpOnStudent(String pnr) throws SQLException {
+		return dataAccessLayer.getTotalHp(pnr);
+	}
+
+	public Vector<Vector<String>> getFlowVector() throws SQLException {
+		return dataAccessLayer.getFlowVector();
 	}
 }

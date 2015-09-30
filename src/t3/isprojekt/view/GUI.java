@@ -56,6 +56,7 @@ public class GUI {
 	private JTable table;
 	private JLabel labelPercent;
 	private JTextField textOnCourse;
+	private Course course;
 
 	/**
 	 * Launch the application.
@@ -185,7 +186,6 @@ public class GUI {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				student.repaint();
 				frame.repaint();
 			}
 		});
@@ -263,7 +263,7 @@ public class GUI {
 		textHP.setColumns(10);
 		// Table
 		JScrollPane scrollPaneC = new JScrollPane();
-		scrollPaneC.setBounds(288, 19, 324, 206);
+		scrollPaneC.setBounds(288, 19, 422, 206);
 		course.add(scrollPaneC);
 
 		table = new JTable();
@@ -274,6 +274,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				String cCode = textCourseCode.getText();
 				try {
+
 					Course course = controller.findCourse(cCode);
 					if (course != null) {
 						textcDescription.setText(course.getcDescription());
@@ -293,11 +294,14 @@ public class GUI {
 		});
 		btnSearchCourse.setBounds(280, 237, 117, 29);
 		course.add(btnSearchCourse);
+		labelPercent = new JLabel();
+		course.add(labelPercent);
 
 		JButton btnStudentsOnCourse = new JButton("Studied");
 		btnStudentsOnCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String code = textCourseCode.getText();
+				String percentageGrade = "0";
 				Vector<String> names = new Vector<String>();
 				names.add(0, "Pnr:");
 				names.add(1, "Name:");
@@ -307,14 +311,17 @@ public class GUI {
 					dtm = new DefaultTableModel(controller.getAllStudentsResultOnCourseVector(code), names);
 					table.removeAll();
 					table.setModel(dtm);
-
-					labelPercent = new JLabel(controller.findPrecentageGrade(code));
+					if (controller.findPrecentageGrade(code) != null) {
+						percentageGrade = controller.findPrecentageGrade(code);
+					}
+					labelPercent.setText(percentageGrade + " % A");
 					labelPercent.setBounds(551, 272, 61, 16);
-					course.add(labelPercent);
+
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				frame.repaint();
 			}
 		});
 		btnStudentsOnCourse.setBounds(392, 237, 111, 29);
@@ -340,6 +347,26 @@ public class GUI {
 		});
 		btnStudied_1.setBounds(497, 237, 117, 29);
 		course.add(btnStudied_1);
+
+		JButton btnBestFlow = new JButton("Best flow");
+		btnBestFlow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Vector<String> names = new Vector<String>();
+				names.add(0, "Percent:");
+				names.add(1, "Course:");
+				try {
+					dtm = new DefaultTableModel(controller.getFlowVector(), names);
+					table.removeAll();
+					table.setModel(dtm);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+		btnBestFlow.setBounds(612, 238, 98, 28);
+		course.add(btnBestFlow);
 
 		// REGISTER
 		tabbedPane.addTab("Register", null, register, null);
@@ -385,9 +412,9 @@ public class GUI {
 		textTelnr.setBounds(89, 189, 134, 28);
 		register.add(textTelnr);
 		textTelnr.setColumns(10);
-		// comboBox = new JComboBox();
-		// comboBox.setBounds(553, 109, 134, 27);
-		// register.add(comboBox);
+		comboBox = new JComboBox();
+		comboBox.setBounds(553, 109, 134, 27);
+		register.add(comboBox);
 
 		JLabel lblAddCourse = new JLabel("Add course");
 		lblAddCourse.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -448,16 +475,16 @@ public class GUI {
 		lblcrGrade.setBounds(486, 369, 61, 16);
 		register.add(lblcrGrade);
 
-		// String[] gradeList = new String[6];
-		// gradeList[0] = "A";
-		// gradeList[1] = "B";
-		// gradeList[2] = "C";
-		// gradeList[3] = "D";
-		// gradeList[4] = "E";
-		// gradeList[5] = "U";
-		// comboBoxGrade = new JComboBox<String>(gradeList);
-		// comboBoxGrade.setBounds(553, 365, 134, 27);
-		// register.add(comboBoxGrade);
+		String[] gradeList = new String[6];
+		gradeList[0] = "A";
+		gradeList[1] = "B";
+		gradeList[2] = "C";
+		gradeList[3] = "D";
+		gradeList[4] = "E";
+		gradeList[5] = "U";
+		comboBoxGrade = new JComboBox<String>(gradeList);
+		comboBoxGrade.setBounds(553, 365, 134, 27);
+		register.add(comboBoxGrade);
 
 		JButton btnAddStudent = new JButton("Add");
 		btnAddStudent.addActionListener(new ActionListener() {
@@ -500,12 +527,13 @@ public class GUI {
 				String name = textrNAme.getText();
 				int HP = Integer.parseInt(textrHP.getText());
 				try {
-					boolean b = controller.addCourse(code, name, HP);
+					Course course = new Course(code, name, HP);
+					boolean b = controller.addCourse(course);
 					if (b == true) {
 						textrCode.setText("Added");
 						textrNAme.setText("");
 						textrHP.setText("");
-						// comboBox.addItem(code);
+						comboBox.addItem(code);
 					} else {
 						textrCode.setText("NotAdded");
 						textrNAme.setText("");
@@ -572,21 +600,32 @@ public class GUI {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean b = false;
 				String pnr = textrrrPnr.getText();
-
-				String course = comboBox.getSelectedItem().toString();
+				String code = comboBox.getSelectedItem().toString();
+				int hpCourse = 0;
 				try {
-					boolean b = controller.addCourseToStudies(pnr, course);
+					hpCourse = controller.findCourse(code).getHp() + controller.getAllHpOnStudent(pnr);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (hpCourse < 45) {
+					try {
+						b = controller.addCourseToStudies(pnr, code);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					if (b == true) {
 						textrrrPnr.setText("Added");
-
 					} else {
 						textrrrPnr.setText("FailedToAdd");
 					}
-				} catch (SQLException e1) { // TODO Auto-generated catch block
-					e1.printStackTrace();
-					textrrrPnr.setText("NoConnection");
+				} else {
+					textrrrPnr.setText("ToManyHP");
 				}
+
 			}
 		});
 		btnAdd.setBounds(570, 150, 117, 29);
@@ -665,21 +704,20 @@ public class GUI {
 	}
 
 	public void use() {
-		// int i = 0;
-		// String[] cList;
+		int i = 0;
+		String[] cList;
 		try {
 			String[] array = new String[controller.findAllCourses().size()];
-			System.out.println(controller.findAllCourses().size());
-			for (int i = 0; i < array.length; i++) {
-				String s = controller.findAllCourses().get(i).getcCode();
-				// comboBox.addItem(s);
+			for (int i2 = 0; i2 < array.length; i2++) {
+				String s = controller.findAllCourses().get(i2).getcCode();
+				comboBox.addItem(s);
 			}
-			// cList = new String[controller.findAllCourses().size()];
+			cList = new String[controller.findAllCourses().size()];
 
-			// for (Course c : controller.findAllCourses()) {
-			// cList[i] = c.getcCode();
-			// i++;
-			// }
+			for (Course c : controller.findAllCourses()) {
+				cList[i] = c.getcCode();
+				i++;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
