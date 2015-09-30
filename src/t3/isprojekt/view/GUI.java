@@ -161,6 +161,10 @@ public class GUI {
 		student.add(textsTel);
 		textsTel.setColumns(10);
 
+		final JLabel lblGradeFailed = new JLabel("");
+		lblGradeFailed.setFont(new Font("Adobe Caslon Pro", Font.PLAIN, 15));
+		lblGradeFailed.setBounds(443, 119, 100, 107);
+
 		final JLabel lblGradeStudent = new JLabel("");
 		lblGradeStudent.setFont(new Font("Adobe Caslon Pro", Font.PLAIN, 70));
 		lblGradeStudent.setBounds(443, 119, 61, 107);
@@ -168,18 +172,25 @@ public class GUI {
 		JButton btnsSearch = new JButton("Search student");
 		btnsSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblGradeFailed.setText("");
 				lblGradeStudent.setText("");
 				textOnCourse.setEditable(false);
 				String pnr = textsPnr.getText();
+				textsPnr.setText("");
 				try {
 					Student students = controller.findStudent(pnr);
 					if (students != null) {
+						textsPnr.setText(students.getsPnr());
 						textsName.setText(students.getsName());
 						textsAdress.setText(students.getsAdress());
 						textsTel.setText(students.getsTfn());
 						textOnCourse.setEditable(true);
 					} else {
 						textsPnr.setText("NoStudent");
+						frame.repaint();
+						textsName.setText("");
+						textsAdress.setText("");
+						textsTel.setText("");
 					}
 				} catch (SQLException e1) {
 					textsPnr.setText("NoConnection");
@@ -209,13 +220,22 @@ public class GUI {
 		JButton btnResult = new JButton("Result");
 		btnResult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblGradeStudent.setText("");
+				lblGradeFailed.setText("");
+				frame.repaint();
 				String code = textOnCourse.getText();
 				String pnr = textsPnr.getText();
 
 				try {
 					Studied stud = controller.findStudentResult(pnr, code);
-					lblGradeStudent.setText(stud.getsGrade());
-					student.add(lblGradeStudent);
+					if (stud != null) {
+						lblGradeStudent.setText(stud.getsGrade());
+						student.add(lblGradeStudent);
+					} else {
+						lblGradeFailed.setText("NoResult");
+						student.add(lblGradeFailed);
+					}
+
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -272,17 +292,20 @@ public class GUI {
 		JButton btnSearchCourse = new JButton("Search Course");
 		btnSearchCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textCourseCode.setText("");
 				String cCode = textCourseCode.getText();
 				try {
 
 					Course course = controller.findCourse(cCode);
 					if (course != null) {
+						textCourseCode.setText(course.getcCode());
 						textcDescription.setText(course.getcDescription());
 						textHP.setText(Integer.toString(course.getHp()));
 					} else {
 						textCourseCode.setText("NoCourse");
 						textcDescription.setText("");
 						textHP.setText("");
+						frame.repaint();
 					}
 				} catch (SQLException e1) {
 					textCourseCode.setText("NoConnection");
